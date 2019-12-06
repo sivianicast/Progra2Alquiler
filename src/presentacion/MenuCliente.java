@@ -7,6 +7,7 @@ package presentacion;
 
 import entidades.Cliente;
 import entidades.Seri;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -135,6 +136,11 @@ public class MenuCliente extends javax.swing.JFrame {
         });
 
         limpiar.setText("Limpiar");
+        limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiarActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +156,7 @@ public class MenuCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -167,74 +173,62 @@ public class MenuCliente extends javax.swing.JFrame {
                         .addComponent(limpiar)
                         .addGap(6, 6, 6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(agreagarCliente)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                                .addComponent(cedula))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(telefono, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                                .addComponent(apllido)
-                                .addComponent(direccion)))
-                        .addGap(92, 92, 92)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(eliminar)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(mostrar)
-                                    .addComponent(modificar))
-                                .addGap(121, 121, 121)
-                                .addComponent(jButton1)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                        .addComponent(cedula))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(telefono, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                        .addComponent(apllido)
+                        .addComponent(direccion))
+                    .addComponent(agreagarCliente))
+                .addGap(92, 92, 92)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(349, 349, 349))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mostrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(mostrar))
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(apllido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(modificar))
+                            .addComponent(apllido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(9, 9, 9)
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jButton1)))
-                        .addGap(24, 24, 24)
-                        .addComponent(eliminar)))
-                .addGap(25, 25, 25)
+                                .addGap(19, 19, 19)
+                                .addComponent(modificar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(eliminar)
+                        .addGap(35, 35, 35)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agreagarCliente)
-                    .addComponent(limpiar)))
+                    .addComponent(limpiar)
+                    .addComponent(jButton1)))
         );
 
         pack();
@@ -261,64 +255,100 @@ public class MenuCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_direccionActionPerformed
 
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
-        
+        boolean mostrar = true;
         Cliente cliente = new Cliente();
-        JOptionPane.showMessageDialog(null, cliente.getListaClientes().size());
-       
         for (int i = 0; i < cliente.getListaClientes().size(); i++) {
             if (cliente.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
                 nombre.setText(cliente.getListaClientes().get(i).getNombre());
                 apllido.setText(cliente.getListaClientes().get(i).getAprellido());
                 telefono.setText(Integer.toString(cliente.getListaClientes().get(i).getTelefono()));
                 direccion.setText(cliente.getListaClientes().get(i).getDireccion());
-            }else{
-                JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
-            } 
+                mostrar = false;
+            }
+        }
+        if (mostrar) {
+            JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
         }
     }//GEN-LAST:event_mostrarActionPerformed
-
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        try{
         Cliente cliente = new Cliente(); 
         cliente.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
         cargarTitulosColumas();
         cargarDatos();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Id vacia");
+        }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void agreagarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agreagarClienteActionPerformed
-        Cliente cliente = new Cliente(Integer.parseInt(cedula.getText()), nombre.getText(), apllido.getText(), direccion.getText(), Integer.parseInt(telefono.getText()));
-        cliente.agregarDatosLista(cliente);
+        boolean agregar = true;
+        Cliente cliente1 = new Cliente();
+        for (int i = 0; i < cliente1.getListaClientes().size(); i++) {
+            if (cliente1.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
+                agregar = false;
+            }
+        }
+        if (agregar) {
+            try {
+                Cliente cliente = new Cliente(Integer.parseInt(cedula.getText()), nombre.getText(), apllido.getText(), direccion.getText(), Integer.parseInt(telefono.getText()));
+                cliente.agregarDatosLista(cliente);
+                tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+                tabla.setRowCount(0); //para limpiar los datos de la tabla filas
+                cargarTitulosColumas();
+                cargarDatos();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Datos vacios");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "La id ya existe");
+        }      
+    }//GEN-LAST:event_agreagarClienteActionPerformed
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        try{
+        boolean modificar = true;
+        Cliente cliente = new Cliente();
+        for (int i = 0; i < cliente.getListaClientes().size(); i++) {
+            if (cliente.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
+                ArrayList<String> listaClientes = new ArrayList<>();
+                listaClientes.add(cedula.getText());
+                listaClientes.add(nombre.getText());
+                listaClientes.add(apllido.getText());
+                listaClientes.add(direccion.getText());
+                listaClientes.add(telefono.getText());
+                cliente.modificarDatosLista(listaClientes);
+                modificar = false;
+            }
+        }
+        if (modificar) {
+            JOptionPane.showMessageDialog(null, "La id no existe");
+        }
+        } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Datos vacios");
+            }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
         cargarTitulosColumas();
         cargarDatos();
-    }//GEN-LAST:event_agreagarClienteActionPerformed
-
-    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        Cliente cliente = new Cliente();
-         ArrayList<String> listaClientes = new ArrayList<>();
-         listaClientes.add(cedula.getText());
-         listaClientes.add(nombre.getText());
-         listaClientes.add(apllido.getText());
-         listaClientes.add(direccion.getText());
-         listaClientes.add(telefono.getText());
-         cliente.modificarDatosLista(listaClientes);
-         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
-         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
-         cargarTitulosColumas();
-         cargarDatos();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Cliente cliente = new Cliente();
         Seri x = new Seri();
         x.agregarTxt(cliente.listaClientes,"lista.txt");
-        JOptionPane.showMessageDialog(null,"paso");
+        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+        tabla.setRowCount(0);
         Principal x1 = new Principal();
         x1.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_limpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,5 +424,12 @@ public class MenuCliente extends javax.swing.JFrame {
             datos[4] = Integer.toString(cliente.getListaClientes().get(i).getTelefono());
             tabla.addRow(datos);
         }
+    }
+    public void limpiar(){
+        this.cedula.setText(null);
+        this.apllido.setText(null);
+        this.nombre.setText(null);
+        this.direccion.setText(null);
+        this.telefono.setText(null);
     }
 }

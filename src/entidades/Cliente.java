@@ -28,7 +28,7 @@ public class Cliente implements Interfaz ,Serializable {
     public String aprellido;
     public String direccion;
     public int telefono;
-    public static  ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+    public static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
     public Cliente() {
     }
     public Cliente(int cedula, String nombre, String aprellido, String direccion, int telefono) {
@@ -77,43 +77,31 @@ public class Cliente implements Interfaz ,Serializable {
     public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
-
-//    @Override
-//    public void verDatosLista() {
-//         String concatena = "";
-//        for (int i = 0; i < listaClientes.size(); i++) {
-//            concatena = concatena + "*Ciente" + (i + 1) + "      "
-//                    + "ID " + listaClientes.get(i).getCedula() +"      "
-//                    + "Nombre " + listaClientes.get(i).getNombre() + "      "
-//                    + "Apellido " + listaClientes.get(i).getAprellido() + "      "
-//                    + "Direccion " + listaClientes.get(i).getDireccion() + "      "
-//                    + "Telefono " + listaClientes.get(i).getTelefono() + "\n";
-//        }
-//        JOptionPane.showMessageDialog(null,concatena);
-//    }    
     @Override
     public void modificarDatosLista(ArrayList <String> lista) {
         for (int i = 0; i < listaClientes.size(); i++) {
             if (Integer.parseInt(lista.get(0)) == (listaClientes.get(i).getCedula())) {
+                listaClientes.get(i).setCedula(Integer.parseInt(lista.get(0)));
                 listaClientes.get(i).setNombre((String)lista.get(1));
                 listaClientes.get(i).setAprellido((String)lista.get(2));
                 listaClientes.get(i).setDireccion((String)lista.get(3));
                 listaClientes.get(i).setTelefono(Integer.parseInt(lista.get(4)) );
                 JOptionPane.showMessageDialog(null, "Cliente modificado");
-            }else{
-                JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
-            } 
+            }
         }
     }
     @Override
     public void eliminarDatosLista(int codigo) {
+        boolean existe = true;
         for (int i = 0; i < listaClientes.size(); i++) {
             if (codigo == listaClientes.get(i).getCedula()) {
                 listaClientes.remove(i);
                 JOptionPane.showMessageDialog(null, "Cliente eliminado");
-            }else{
-                JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
-            } 
+                existe = false;
+            }
+        }
+        if (existe) {
+            JOptionPane.showMessageDialog(null, "Cliente no existe");
         }
     }
     @Override
@@ -121,28 +109,28 @@ public class Cliente implements Interfaz ,Serializable {
         listaClientes.add((Cliente) x);
     }
     public void agregarListatxt( String nombre , ArrayList<Object> lista ){
-        Cliente conexionCliente = new Cliente();
-        FileOutputStream fichero = null;
-        try{
-            fichero = new FileOutputStream ("ListaClientes.txt");
-            ObjectOutputStream conexion = new ObjectOutputStream(fichero);
-            conexion.writeObject(listaClientes);
-            fichero.close();
-            conexion.close();
-            }catch(FileNotFoundException ex){
-            }catch(IOException ex){
-            }
+//        Cliente conexionCliente = new Cliente();
+//        FileOutputStream fichero = null;
+//        try{
+//            fichero = new FileOutputStream ("ListaClientes.txt");
+//            ObjectOutputStream conexion = new ObjectOutputStream(fichero);
+//            conexion.writeObject(listaClientes);
+//            fichero.close();
+//            conexion.close();
+//            }catch(FileNotFoundException ex){
+//            }catch(IOException ex){
+//            }
         }
     public void llamarListatxt(){
-        Cliente conexionCliente = new Cliente();
-        FileInputStream ficheroEntrada = null;
-        try{
-            ficheroEntrada = new FileInputStream("ListaClientes.txt");
-            try (ObjectInputStream conexionEntrada = new ObjectInputStream(ficheroEntrada)) {
-            listaClientes =(ArrayList<Cliente>)conexionEntrada.readObject();
-            }
-        }catch(FileNotFoundException ex){
-        }catch(IOException | ClassNotFoundException ex){
-        }    
+//        Cliente conexionCliente = new Cliente();
+//        FileInputStream ficheroEntrada = null;
+//        try{
+//            ficheroEntrada = new FileInputStream("ListaClientes.txt");
+//            try (ObjectInputStream conexionEntrada = new ObjectInputStream(ficheroEntrada)) {
+//            listaClientes =(ArrayList<Cliente>)conexionEntrada.readObject();
+//            }
+//        }catch(FileNotFoundException ex){
+//        }catch(IOException | ClassNotFoundException ex){
+//        }    
     }
 }

@@ -29,6 +29,7 @@
                   <Component id="jbtClientes" max="32767" attributes="0"/>
                   <Component id="jbnEmpleados" pref="111" max="32767" attributes="0"/>
                   <Component id="jbnAlquiler" max="32767" attributes="0"/>
+                  <Component id="video" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="221" max="32767" attributes="0"/>
           </Group>
@@ -41,9 +42,11 @@
               <Component id="jbtClientes" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               <Component id="jbnEmpleados" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <Component id="video" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               <Component id="jbnAlquiler" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="209" max="32767" attributes="0"/>
+              <EmptySpace pref="152" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,11 +64,22 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Empleados"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbnEmpleadosActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbnAlquiler">
       <Properties>
         <Property name="text" type="java.lang.String" value="Alquiler"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="video">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Video"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="videoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

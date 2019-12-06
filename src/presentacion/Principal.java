@@ -30,6 +30,7 @@ public class Principal extends javax.swing.JFrame {
         jbtClientes = new javax.swing.JButton();
         jbnEmpleados = new javax.swing.JButton();
         jbnAlquiler = new javax.swing.JButton();
+        video = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,8 +42,20 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jbnEmpleados.setText("Empleados");
+        jbnEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbnEmpleadosActionPerformed(evt);
+            }
+        });
 
         jbnAlquiler.setText("Alquiler");
+
+        video.setText("Video");
+        video.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                videoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,7 +66,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbtClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbnEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                    .addComponent(jbnAlquiler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbnAlquiler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(video, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(221, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -63,9 +77,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jbtClientes)
                 .addGap(38, 38, 38)
                 .addComponent(jbnEmpleados)
-                .addGap(40, 40, 40)
+                .addGap(35, 35, 35)
+                .addComponent(video)
+                .addGap(39, 39, 39)
                 .addComponent(jbnAlquiler)
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         pack();
@@ -76,6 +92,18 @@ public class Principal extends javax.swing.JFrame {
         menuCliente.setVisible(true);
         dispose();
     }//GEN-LAST:event_jbtClientesActionPerformed
+
+    private void jbnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnEmpleadosActionPerformed
+        MenuEmpleado menuEmpleado = new MenuEmpleado();
+        menuEmpleado.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jbnEmpleadosActionPerformed
+
+    private void videoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_videoActionPerformed
+        MenuVideo video = new MenuVideo();
+        video.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_videoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,5 +144,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jbnAlquiler;
     private javax.swing.JButton jbnEmpleados;
     private javax.swing.JButton jbtClientes;
+    private javax.swing.JButton video;
     // End of variables declaration//GEN-END:variables
 }

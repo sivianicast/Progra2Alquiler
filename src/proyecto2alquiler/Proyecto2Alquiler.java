@@ -6,6 +6,8 @@
 package proyecto2alquiler;
 
 import entidades.Cliente;
+import entidades.EmpleadoAdmin;
+import entidades.EmpleadoVentas;
 import entidades.Seri;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -22,14 +24,13 @@ public class Proyecto2Alquiler {
      */
     public static void main(String[] args) {
         Cliente cliente = new Cliente();
-        Seri x = new Seri(); 
-         cliente.listaClientes = (ArrayList<Cliente>) x.llamarTxt("lista.txt"); 
-//        Cliente cliente = new Cliente(1,"jose","castro","san",8512);
-//        cliente.agregarDatosLista(cliente);
-//        cliente.verDatosLista();
+        EmpleadoAdmin admin = new EmpleadoAdmin();
+        EmpleadoVentas ventas = new EmpleadoVentas();
+        Seri x1 = new Seri();
+        Cliente.listaClientes = (ArrayList<Cliente>) x1.llamarTxt("lista.txt");
+        admin.listaEmpleadosAdmin = (ArrayList<EmpleadoAdmin>) x1.llamarTxt("administradores.txt");
+        ventas.listaEmpleadosVentas = (ArrayList<EmpleadoVentas>) x1.llamarTxt("vendedores.txt");
         Principal principal = new Principal();
         principal.setVisible(true);
-//        x.agregarTxt(cliente.listaClientes,"lista.txt");
-//        JOptionPane.showMessageDialog(null,"paso");
     }
 }
