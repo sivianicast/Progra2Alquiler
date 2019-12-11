@@ -414,6 +414,7 @@ public class MenuCliente extends javax.swing.JFrame {
         this.jTable2.setModel(tabla);
     }
     public void cargarDatos(){
+        try {
         Cliente cliente = new Cliente(); 
         for (int i = 0; i < cliente.getListaClientes().size(); i++) {
             String datos[] = new String[5]; 
@@ -424,6 +425,9 @@ public class MenuCliente extends javax.swing.JFrame {
             datos[4] = Integer.toString(cliente.getListaClientes().get(i).getTelefono());
             tabla.addRow(datos);
         }
+        }catch (Exception e) {
+        }
+        
     }
     public void limpiar(){
         this.cedula.setText(null);

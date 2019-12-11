@@ -9,6 +9,7 @@ import entidades.Cliente;
 import entidades.EmpleadoAdmin;
 import entidades.EmpleadoVentas;
 import entidades.Seri;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import presentacion.Principal;
@@ -27,9 +28,18 @@ public class Proyecto2Alquiler {
         EmpleadoAdmin admin = new EmpleadoAdmin();
         EmpleadoVentas ventas = new EmpleadoVentas();
         Seri x1 = new Seri();
-        Cliente.listaClientes = (ArrayList<Cliente>) x1.llamarTxt("lista.txt");
-        admin.listaEmpleadosAdmin = (ArrayList<EmpleadoAdmin>) x1.llamarTxt("administradores.txt");
-        ventas.listaEmpleadosVentas = (ArrayList<EmpleadoVentas>) x1.llamarTxt("vendedores.txt");
+        File archivo = new File("lista.txt");
+        if (archivo.exists()) {
+            Cliente.listaClientes = (ArrayList<Cliente>) x1.llamarTxt("lista.txt");
+        }
+        File archivo1 = new File("administradores.txt");
+        if (archivo.exists()) {
+            EmpleadoAdmin.listaEmpleadosAdmin = (ArrayList<EmpleadoAdmin>) x1.llamarTxt("administradores.txt");
+        }
+        File archivo2 = new File("vendedores.txt");
+        if (archivo.exists()) {
+            EmpleadoVentas.listaEmpleadosVentas = (ArrayList<EmpleadoVentas>) x1.llamarTxt("vendedores.txt");
+        }
         Principal principal = new Principal();
         principal.setVisible(true);
     }

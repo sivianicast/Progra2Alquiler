@@ -19,7 +19,9 @@ import static presentacion.MenuEmpleado.tabla;
  * @author siviany
  */
 public class MenuVideo extends javax.swing.JFrame {
+
     public static DefaultTableModel tabla = new DefaultTableModel();
+
     /**
      * Creates new form MenuVideo
      */
@@ -93,6 +95,11 @@ public class MenuVideo extends javax.swing.JFrame {
         });
 
         limpiar.setText("Limpiar");
+        limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limpiarActionPerformed(evt);
+            }
+        });
 
         agregar.setText("Nuevo Video");
         agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -109,10 +116,25 @@ public class MenuVideo extends javax.swing.JFrame {
         });
 
         modificar.setText("Modificar");
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
 
         eliminar.setText("Eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarActionPerformed(evt);
+            }
+        });
 
         volver.setText("Volver");
+        volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -205,31 +227,174 @@ public class MenuVideo extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreActionPerformed
 
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
-
-      
+        switch (this.combo.getSelectedIndex()) {
+            case 1:
+                Pelicula peli = new Pelicula();
+                for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
+                    if (peli.getListaPeliculas().get(i).getNombre().equals(this.nombre.getText())) {
+                        this.combo.setSelectedItem(peli.getListaPeliculas().get(i).getTipoVideo());
+                        this.nombre.setText(peli.getListaPeliculas().get(i).getNombre());
+                        this.cantidad.setText(Integer.toString(peli.getListaPeliculas().get(i).getCantidad()));
+                        this.secuelas.setText(Integer.toString(peli.getListaPeliculas().get(i).getSecuelas()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+                    }
+                }
+                break;
+            case 2:
+                Serie serie = new Serie();
+                for (int i = 0; i < serie.getListaSeries().size(); i++) {
+                    if (serie.getListaSeries().get(i).getNombre().equals(this.nombre.getText())) {
+                        this.combo.setSelectedItem(serie.getListaSeries().get(i).getTipoVideo());
+                        this.nombre.setText(serie.getListaSeries().get(i).getNombre());
+                        this.cantidad.setText(Integer.toString(serie.getListaSeries().get(i).getCantidad()));
+                        this.temporadas.setText(Integer.toString(serie.getListaSeries().get(i).getNumeroTemporadas()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+                    }
+                }
+                break;
+            case 3:
+                Documental docu = new Documental();
+                for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+                    if (docu.getListaDocumental().get(i).getNombre().equals(this.nombre.getText())) {
+                        this.combo.setSelectedItem(docu.getListaDocumental().get(i).getTipoVideo());
+                        this.nombre.setText(docu.getListaDocumental().get(i).getNombre());
+                        this.cantidad.setText(Integer.toString(docu.getListaDocumental().get(i).getCantidad()));
+                        this.categoria.setText((docu.getListaDocumental().get(i).getCategoria()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+                    }
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
     }//GEN-LAST:event_mostrarActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        Video video = new Video();
+
         switch (combo.getSelectedIndex()) {
             case 1:
-                Pelicula peli = new Pelicula((String)combo.getSelectedItem(),nombre.getText(),Integer.parseInt(cantidad.getText()),Integer.parseInt(secuelas.getText()));
-                video.setListaVideos(peli);
+                Pelicula peli = new Pelicula(Integer.parseInt(this.secuelas.getText()), (String) this.combo.getSelectedItem(),
+                        this.nombre.getText(), Integer.parseInt(this.secuelas.getText()));
+                peli.agregarDatosLista(peli);
                 break;
-             case 2:
-                Serie serie = new Serie((String)combo.getSelectedItem(),Integer.parseInt(cantidad.getText()),nombre.getText(),Integer.parseInt(temporadas.getText()));
-                video.setListaVideos(serie);
+            case 2:
+                Serie serie = new Serie(Integer.parseInt(this.temporadas.getText()), (String) this.combo.getSelectedItem(),
+                        this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
+                serie.agregarDatosLista(serie);
                 break;
-             case 3:
-                Documental documental = new Documental((String)combo.getSelectedItem(),nombre.getText(),Integer.parseInt(cantidad.getText()),categoria.getText());
-                video.setListaVideos(documental);
-                break;    
+            case 3:
+                Documental docu = new Documental(this.categoria.getText(), (String) this.combo.getSelectedItem(),
+                        this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
+                docu.agregarDatosLista(docu);
+                break;
         }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
         cargarTitulosColumas();
-        cargarDatos();
+        cargarDatosPeliculas();
+        cargarDatosDocumental();
+        cargarDatosSeries();
     }//GEN-LAST:event_agregarActionPerformed
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        if (nombre.getText().equals("") || combo.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese tipo de video y nombre");
+        } else {
+            switch (this.combo.getSelectedIndex()) {
+                case 1:
+                    Pelicula peli = new Pelicula();
+                    for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
+                        if (peli.getListaPeliculas().get(i).getNombre().equals(this.nombre.getText())) {
+                            ArrayList<String> lista = new ArrayList<>();
+                            lista.add((String) this.combo.getSelectedItem());
+                            lista.add(this.nombre.getText());
+                            lista.add(this.cantidad.getText());
+                            lista.add(this.secuelas.getText());
+                            peli.modificarDatosLista(lista);
+                            JOptionPane.showMessageDialog(null, "Ingrese tipo de video y nombrevvvvvvvvvvvvvvvvvvvvvvv");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El nombre no existe");
+                        }
+                    }
+
+                    break;
+                case 2:
+                    Serie serie = new Serie();
+                    for (int i = 0; i < serie.getListaSeries().size(); i++) {
+                        if (serie.getListaSeries().get(i).getNombre().equals(this.nombre.getText())) {
+                            ArrayList<String> lista = new ArrayList<>();
+                            lista.add((String) this.combo.getSelectedItem());
+                            lista.add(this.nombre.getText());
+                            lista.add(this.cantidad.getText());
+                            lista.add(this.temporadas.getText());
+                            serie.modificarDatosLista(lista);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El nombre no existe");
+                        }
+                    }
+                    break;
+                case 3:
+                    Documental docu = new Documental();
+                    for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+                        if (docu.getListaDocumental().get(i).getNombre().equals(this.nombre.getText())) {
+                            ArrayList<String> lista = new ArrayList<>();
+                            lista.add((String) this.combo.getSelectedItem());
+                            lista.add(this.nombre.getText());
+                            lista.add(this.cantidad.getText());
+                            lista.add(this.temporadas.getText());
+                            docu.modificarDatosLista(lista);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El nombre no existe");
+                        }
+                    }
+                    break;
+
+            }
+            tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+            tabla.setRowCount(0); //para limpiar los datos de la tabla filas
+            cargarTitulosColumas();
+            cargarDatosPeliculas();
+            cargarDatosDocumental();
+            cargarDatosSeries();
+        }
+
+    }//GEN-LAST:event_modificarActionPerformed
+
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        switch (this.combo.getSelectedIndex()) {
+            case 1:
+                Pelicula peli = new Pelicula();
+                peli.eliminarDatosLista(Integer.parseInt(nombre.getText()));
+                break;
+            case 2:
+                Serie serie = new Serie();
+                serie.eliminarDatosLista(Integer.parseInt(nombre.getText()));
+                break;
+            case 3:
+                Documental docu = new Documental();
+                docu.eliminarDatosLista(Integer.parseInt(nombre.getText()));
+                break;
+        }
+        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+        tabla.setRowCount(0); //para limpiar los datos de la tabla filas
+        cargarTitulosColumas();
+        cargarDatosPeliculas();
+        cargarDatosDocumental();
+        cargarDatosSeries();
+    }//GEN-LAST:event_eliminarActionPerformed
+
+    private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_limpiarActionPerformed
+
+    private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
+        Principal principal = new Principal();
+        principal.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_volverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -299,25 +464,41 @@ public class MenuVideo extends javax.swing.JFrame {
         jTable1.setModel(tabla);
     }
 
-    public void cargarDatos() {
-        Video video = new Video();
-        for (int i = 0; i < video.getListaVideos().size(); i++) {
+    public void cargarDatosPeliculas() {
+        Pelicula peli = new Pelicula();
+        for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
             ArrayList<String> datos = new ArrayList<>();
-            datos.add(video.getListaVideos().get(i).getTipoVideo());
-            datos.add(video.getListaVideos().get(i).getNombre());
-            datos.add(Integer.toString(video.getListaVideos().get(i).getCantidad()));
-            if (video.getListaVideos().get(i).getTipoVideo().equalsIgnoreCase("Pelicula")) {
-                datos.add(Integer.toString(video.getListaVideos().get(i).getSecuelas()));
-            }
-            if (video.getListaVideos().get(i).getTipoVideo().equals("Serie")) {
-                datos.add("");
-                datos.add(Integer.toString(video.getListaVideos().get(i).getNumeroTemporadas()));
-            }
-            if (video.getListaVideos().get(i).getTipoVideo().equals("Documental")) {
-                datos.add("");
-                datos.add("");
-                datos.add(video.getListaVideos().get(i).getCategoria());
-            }
+            datos.add(peli.getListaPeliculas().get(i).getTipoVideo());
+            datos.add(peli.getListaPeliculas().get(i).getNombre());
+            datos.add(Integer.toString(peli.getListaPeliculas().get(i).getCantidad()));
+            datos.add(Integer.toString(peli.getListaPeliculas().get(i).getSecuelas()));
+            tabla.addRow(datos.toArray());
+        }
+    }
+
+    public void cargarDatosSeries() {
+        Serie serie = new Serie();
+        for (int i = 0; i < serie.getListaSeries().size(); i++) {
+            ArrayList<String> datos = new ArrayList<>();
+            datos.add(serie.getListaSeries().get(i).getTipoVideo());
+            datos.add(serie.getListaSeries().get(i).getNombre());
+            datos.add(Integer.toString(serie.getListaSeries().get(i).getCantidad()));
+            datos.add("");
+            datos.add(Integer.toString(serie.getListaSeries().get(i).getNumeroTemporadas()));
+            tabla.addRow(datos.toArray());
+        }
+    }
+
+    public void cargarDatosDocumental() {
+        Documental docu = new Documental();
+        for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+            ArrayList<String> datos = new ArrayList<>();
+            datos.add(docu.getListaDocumental().get(i).getTipoVideo());
+            datos.add(docu.getListaDocumental().get(i).getNombre());
+            datos.add(Integer.toString(docu.getListaDocumental().get(i).getCantidad()));
+            datos.add("");
+            datos.add("");
+            datos.add(docu.getListaDocumental().get(i).getCategoria());
             tabla.addRow(datos.toArray());
         }
     }

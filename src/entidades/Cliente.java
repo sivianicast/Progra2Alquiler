@@ -108,29 +108,5 @@ public class Cliente implements Interfaz ,Serializable {
     public void agregarDatosLista(Object x) {
         listaClientes.add((Cliente) x);
     }
-    public void agregarListatxt( String nombre , ArrayList<Object> lista ){
-//        Cliente conexionCliente = new Cliente();
-//        FileOutputStream fichero = null;
-//        try{
-//            fichero = new FileOutputStream ("ListaClientes.txt");
-//            ObjectOutputStream conexion = new ObjectOutputStream(fichero);
-//            conexion.writeObject(listaClientes);
-//            fichero.close();
-//            conexion.close();
-//            }catch(FileNotFoundException ex){
-//            }catch(IOException ex){
-//            }
-        }
-    public void llamarListatxt(){
-//        Cliente conexionCliente = new Cliente();
-//        FileInputStream ficheroEntrada = null;
-//        try{
-//            ficheroEntrada = new FileInputStream("ListaClientes.txt");
-//            try (ObjectInputStream conexionEntrada = new ObjectInputStream(ficheroEntrada)) {
-//            listaClientes =(ArrayList<Cliente>)conexionEntrada.readObject();
-//            }
-//        }catch(FileNotFoundException ex){
-//        }catch(IOException | ClassNotFoundException ex){
-//        }    
-    }
+    
 }

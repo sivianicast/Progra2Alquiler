@@ -14,21 +14,24 @@ import javax.swing.JOptionPane;
  *
  * @author siviany
  */
-public class EmpleadoAdmin extends Empleado implements Interfaz , Serializable {
+public class EmpleadoAdmin extends Empleado implements Interfaz, Serializable {
+
     public int numeroReportes;
-    public  static ArrayList<EmpleadoAdmin> listaEmpleadosAdmin = new ArrayList<EmpleadoAdmin>();
-    public EmpleadoAdmin(){
-    
+    public static ArrayList<EmpleadoAdmin> listaEmpleadosAdmin = new ArrayList<EmpleadoAdmin>();
+
+    public EmpleadoAdmin() {
+
     }
+
     public EmpleadoAdmin(int numeroVentas, int cedula, String nombre, String horario, double salario, String contraseña, String tipoEmpleado) {
         super(cedula, nombre, horario, salario, contraseña, tipoEmpleado);
         this.numeroReportes = numeroVentas;
     }
+
     public EmpleadoAdmin(int numeroReportes) {
         this.numeroReportes = numeroReportes;
     }
-    
-    
+
     public ArrayList<EmpleadoAdmin> getListaEmpleadosAdmin() {
         return this.listaEmpleadosAdmin;
     }
@@ -36,7 +39,7 @@ public class EmpleadoAdmin extends Empleado implements Interfaz , Serializable {
     public void setListaEmpleadosAdmin(ArrayList<EmpleadoAdmin> listaEmpleadosAdmin) {
         listaEmpleadosAdmin = listaEmpleadosAdmin;
     }
-    
+
     public int getNumeroReportes() {
         return numeroReportes;
     }
@@ -97,12 +100,12 @@ public class EmpleadoAdmin extends Empleado implements Interfaz , Serializable {
 
     @Override
     public void agregarDatosLista(Object x) {
-        listaEmpleadosAdmin.add((EmpleadoAdmin)x);
+        listaEmpleadosAdmin.add((EmpleadoAdmin) x);
     }
 
     @Override
     public void modificarDatosLista(ArrayList<String> lista) {
-       for (int i = 0; i < listaEmpleadosAdmin.size(); i++) {
+        for (int i = 0; i < listaEmpleadosAdmin.size(); i++) {
             if (Integer.parseInt(lista.get(1)) == (listaEmpleadosAdmin.get(i).getCedula())) {
                 listaEmpleadosAdmin.get(i).setTipoEmpleado((lista.get(0)));
                 listaEmpleadosAdmin.get(i).setCedula(Integer.parseInt(lista.get(1)));
@@ -118,7 +121,7 @@ public class EmpleadoAdmin extends Empleado implements Interfaz , Serializable {
 
     @Override
     public void eliminarDatosLista(int codigo) {
-         boolean existe = true;
+        boolean existe = true;
         for (int i = 0; i < listaEmpleadosAdmin.size(); i++) {
             if (codigo == listaEmpleadosAdmin.get(i).getCedula()) {
                 listaEmpleadosAdmin.remove(i);
@@ -130,11 +133,13 @@ public class EmpleadoAdmin extends Empleado implements Interfaz , Serializable {
             JOptionPane.showMessageDialog(null, "Cliente no existe");
         }
     }
+
     @Override
-    public void agregarListatxt( String nombre , ArrayList<Object> lista ){
-       }
+    public void agregarListatxt(String nombre, ArrayList<Object> lista) {
+    }
+
     @Override
-    public void llamarListatxt(String x){
-    }    
-    
+    public void llamarListatxt(String x) {
+    }
+
 }

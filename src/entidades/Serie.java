@@ -5,19 +5,25 @@
  */
 package entidades;
 
+import interfaz.Interfaz;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author siviany
  */
-public class Serie extends Video {
-    
+public class Serie extends Video implements Interfaz {
+
+    int numeroTemporadas;
+    public static ArrayList<Serie> listaSeries = new ArrayList<Serie>();
+
     public Serie() {
     }
 
-    public Serie(String tipoVideo, int cantidad, String nombre, int numeroTemporadas) {
-        super(tipoVideo, cantidad, nombre, numeroTemporadas);
+    public Serie(int numeroTemporadas, String tipoVideo, String nombre, int cantidad) {
+        super(tipoVideo, nombre, cantidad);
+        this.numeroTemporadas = numeroTemporadas;
     }
 
     @Override
@@ -29,13 +35,11 @@ public class Serie extends Video {
     public void setTipoVideo(String tipoVideo) {
         this.tipoVideo = tipoVideo;
     }
-   
-    @Override
+
     public int getNumeroTemporadas() {
         return numeroTemporadas;
     }
 
-    @Override
     public void setNumeroTemporadas(int numeroTemporadas) {
         this.numeroTemporadas = numeroTemporadas;
     }
@@ -59,12 +63,46 @@ public class Serie extends Video {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    @Override
-     public ArrayList<Video> getListaVideos() {
-        return listaVideos;
+
+    public ArrayList<Serie> getListaSeries() {
+        return listaSeries;
     }
+
+    public void setListaSeries(ArrayList<Serie> listaSeries) {
+        Serie.listaSeries = listaSeries;
+    }
+
     @Override
-    public void setListaVideos(Object x){
-        listaVideos.add((Video)x);
-    }  
+    public void agregarDatosLista(Object x) {
+        this.listaSeries.add((Serie) x);
+    }
+
+    @Override
+    public void modificarDatosLista(ArrayList<String> lista) {
+        for (int i = 0; i < listaSeries.size(); i++) {
+            if (lista.get(1).equals(listaSeries.get(i).getNombre())) {
+                listaSeries.get(i).setTipoVideo((lista.get(0)));
+                listaSeries.get(i).setNombre(lista.get(1));
+                listaSeries.get(i).setCantidad(Integer.parseInt(lista.get(2)));
+                listaSeries.get(i).setNumeroTemporadas(Integer.parseInt(lista.get(3)));
+                JOptionPane.showMessageDialog(null, "Serie modificada");
+            }
+        }
+    }
+
+    @Override
+    public void eliminarDatosLista(int codigo) {
+        boolean existe = true;
+        for (int i = 0; i < listaSeries.size(); i++) {
+            if (Integer.toString(codigo).equals(listaSeries.get(i).getNombre())) {
+                listaSeries.remove(i);
+                JOptionPane.showMessageDialog(null, "Serie eliminada");
+                existe = false;
+            }
+        }
+        if (existe) {
+            JOptionPane.showMessageDialog(null, "Serie no existe");
+        }
+    }
+
 }

@@ -5,20 +5,25 @@
  */
 package entidades;
 
-import static entidades.Video.listaVideos;
+import interfaz.Interfaz;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author siviany
  */
-public class Pelicula extends Video {
-    
+public class Pelicula extends Video implements Interfaz {
+
+    int secuelas;
+    public static ArrayList<Pelicula> listaPeliculas = new ArrayList<Pelicula>();
+
     public Pelicula() {
     }
 
-    public Pelicula(String tipoVideo, String nombre, int cantidad, int secuelas) {
-        super(tipoVideo, nombre, cantidad, secuelas);
+    public Pelicula(int secuelas, String tipoVideo, String nombre, int cantidad) {
+        super(tipoVideo, nombre, cantidad);
+        this.secuelas = secuelas;
     }
 
     public Pelicula(int duraccionPelicula) {
@@ -55,7 +60,6 @@ public class Pelicula extends Video {
         this.tipoVideo = tipoVideo;
     }
 
-    @Override
     public int getSecuelas() {
         return secuelas;
     }
@@ -63,12 +67,46 @@ public class Pelicula extends Video {
     public void setSecuelas(int secuelas) {
         this.secuelas = secuelas;
     }
-     @Override
-     public ArrayList<Video> getListaVideos() {
-        return listaVideos;
+
+    public ArrayList<Pelicula> getListaPeliculas() {
+        return listaPeliculas;
     }
+
+    public void setListaPeliculas(ArrayList<Pelicula> listaPeliculas) {
+        Pelicula.listaPeliculas = listaPeliculas;
+    }
+
     @Override
-    public void setListaVideos(Object x){
-        listaVideos.add((Video)x);
-    } 
+    public void agregarDatosLista(Object x) {
+        this.listaPeliculas.add((Pelicula) x);
+    }
+
+    @Override
+    public void modificarDatosLista(ArrayList<String> lista) {
+        for (int i = 0; i < listaPeliculas.size(); i++) {
+            if (lista.get(1).equals(listaPeliculas.get(i).getNombre())) {
+                listaPeliculas.get(i).setTipoVideo((lista.get(0)));
+                listaPeliculas.get(i).setNombre(lista.get(1));
+                listaPeliculas.get(i).setCantidad(Integer.parseInt(lista.get(2)));
+                listaPeliculas.get(i).setSecuelas(Integer.parseInt(lista.get(3)));
+                JOptionPane.showMessageDialog(null, "Pelicula modificada");
+            }
+        }
+    }
+
+    @Override
+    public void eliminarDatosLista(int codigo) {
+        boolean existe = true;
+        for (int i = 0; i < listaPeliculas.size(); i++) {
+            if (Integer.toString(codigo).equals(listaPeliculas.get(i).getNombre())) {
+                listaPeliculas.remove(i);
+                JOptionPane.showMessageDialog(null, "Pelicula eliminada");
+                existe = false;
+            }
+        }
+        if (existe) {
+            JOptionPane.showMessageDialog(null, "Pelicula no existe");
+        }
+    }
+
 }

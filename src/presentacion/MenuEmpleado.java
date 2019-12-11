@@ -5,8 +5,6 @@
  */
 package presentacion;
 
-
-
 import entidades.Empleado;
 import entidades.EmpleadoAdmin;
 import entidades.EmpleadoVentas;
@@ -20,9 +18,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author siviany
  */
-public class MenuEmpleado extends javax.swing.JFrame{
-    public static DefaultTableModel tabla = new DefaultTableModel(); 
-    private boolean empleado; 
+public class MenuEmpleado extends javax.swing.JFrame {
+
+    public static DefaultTableModel tabla = new DefaultTableModel();
+    private boolean empleado;
+
     /**
      * Creates new form MenuEmpleado
      */
@@ -288,7 +288,7 @@ public class MenuEmpleado extends javax.swing.JFrame{
             empleado = true;
             this.numeroVentas.setEnabled(false);
             this.numeroReportes.setEnabled(true);
-        }else{
+        } else {
             empleado = false;
             this.numeroReportes.setEnabled(false);
             this.numeroVentas.setEnabled(true);
@@ -306,7 +306,6 @@ public class MenuEmpleado extends javax.swing.JFrame{
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
         if (empleado) {
             Empleado admin = new EmpleadoAdmin();
-            JOptionPane.showMessageDialog(null, ((EmpleadoAdmin) admin).getListaEmpleadosAdmin().size());
             for (int i = 0; i < ((EmpleadoAdmin) admin).getListaEmpleadosAdmin().size(); i++) {
                 if ((((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getCedula() == Integer.parseInt(this.cedula.getText()))) {
                     nombre.setText(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getNombre());
@@ -318,7 +317,7 @@ public class MenuEmpleado extends javax.swing.JFrame{
                     JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
                 }
             }
-           
+
         } else {
             EmpleadoVentas ventas = new EmpleadoVentas();
             for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
@@ -330,16 +329,16 @@ public class MenuEmpleado extends javax.swing.JFrame{
                     numeroVentas.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getContraseña()));
                 }
             }
-        } 
-            tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
-            tabla.setRowCount(0); //para limpiar los datos de la tabla filas
-            cargarTitulosColumas();
-            cargarDatos();
-            cargarDatosVentas();
+        }
+        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+        tabla.setRowCount(0); //para limpiar los datos de la tabla filas
+        cargarTitulosColumas();
+        cargarDatos();
+        cargarDatosVentas();
     }//GEN-LAST:event_mostrarActionPerformed
-    
+
     private void nuevoEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoEmpleadoActionPerformed
-        if (empleado){
+        if (empleado) {
             EmpleadoAdmin admin = new EmpleadoAdmin();
             admin.setCedula(Integer.parseInt(this.cedula.getText()));
             admin.setNombre(this.nombre.getText());
@@ -349,7 +348,7 @@ public class MenuEmpleado extends javax.swing.JFrame{
             admin.setNumeroReportes(Integer.parseInt(this.numeroReportes.getText()));
             admin.setTipoEmpleado((String) this.jComboBox1.getSelectedItem());
             admin.agregarDatosLista(admin);
-        }else{
+        } else {
             EmpleadoVentas ventas = new EmpleadoVentas();
             ventas.setCedula(Integer.parseInt(this.cedula.getText()));
             ventas.setNombre(this.nombre.getText());
@@ -417,21 +416,21 @@ public class MenuEmpleado extends javax.swing.JFrame{
     }//GEN-LAST:event_modificarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-       
-        try{
+
+        try {
             boolean elimina = true;
             if (empleado) {
-                EmpleadoAdmin admin = new EmpleadoAdmin(); 
+                EmpleadoAdmin admin = new EmpleadoAdmin();
                 admin.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
-            }else{
+            } else {
                 EmpleadoVentas ventas = new EmpleadoVentas();
                 ventas.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
             }
-        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
-        tabla.setRowCount(0); //para limpiar los datos de la tabla filas
-        cargarTitulosColumas();
-        cargarDatos();
-        cargarDatosVentas();
+            tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+            tabla.setRowCount(0); //para limpiar los datos de la tabla filas
+            cargarTitulosColumas();
+            cargarDatos();
+            cargarDatosVentas();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Id vacia");
         }
@@ -441,8 +440,8 @@ public class MenuEmpleado extends javax.swing.JFrame{
         EmpleadoAdmin admin = new EmpleadoAdmin();
         EmpleadoVentas ventas = new EmpleadoVentas();
         Seri x = new Seri();
-        x.agregarTxt(admin.getListaEmpleadosAdmin(),"administradores.txt");
-        x.agregarTxt(ventas.getListaEmpleadosVentas(),"vendedores.txt");
+        x.agregarTxt(admin.getListaEmpleadosAdmin(), "administradores.txt");
+        x.agregarTxt(ventas.getListaEmpleadosVentas(), "vendedores.txt");
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
         Principal principal = new Principal();
@@ -520,38 +519,40 @@ public class MenuEmpleado extends javax.swing.JFrame{
     private javax.swing.JTextField salario;
     private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables
-     public void cargarTitulosColumas(){
-         tabla.addColumn("Tipo_Empleado");   
-         tabla.addColumn("Cedula");
-         tabla.addColumn("Nombre");
-         tabla.addColumn("Horario");
-         tabla.addColumn("Salario");
-         tabla.addColumn("Contraseña");
-         tabla.addColumn("Reportes");
-         tabla.addColumn("Ventas");
+     public void cargarTitulosColumas() {
+        tabla.addColumn("Tipo_Empleado");
+        tabla.addColumn("Cedula");
+        tabla.addColumn("Nombre");
+        tabla.addColumn("Horario");
+        tabla.addColumn("Salario");
+        tabla.addColumn("Contraseña");
+        tabla.addColumn("Reportes");
+        tabla.addColumn("Ventas");
         this.jTable1.setModel(tabla);
     }
-     public void cargarDatos(){
-        EmpleadoAdmin admin = new EmpleadoAdmin(); 
-        for (int i = 0; i < admin.listaEmpleadosAdmin.size(); i++) {
-            String datos[] = new String[7]; 
+
+    public void cargarDatos() {
+        EmpleadoAdmin admin = new EmpleadoAdmin();
+        for (int i = 0; i < admin.getListaEmpleadosAdmin().size(); i++) {
+            String datos[] = new String[7];
             datos[0] = admin.getListaEmpleadosAdmin().get(i).getTipoEmpleado();
             datos[1] = Integer.toString(admin.getListaEmpleadosAdmin().get(i).getCedula());
-            datos[2] =(admin.getListaEmpleadosAdmin().get(i).getNombre());
+            datos[2] = (admin.getListaEmpleadosAdmin().get(i).getNombre());
             datos[3] = (admin.getListaEmpleadosAdmin().get(i).getHorario());
             datos[4] = String.valueOf(admin.getListaEmpleadosAdmin().get(i).getSalario());
             datos[5] = (admin.getListaEmpleadosAdmin().get(i).getContraseña());
             datos[6] = Integer.toString(admin.getListaEmpleadosAdmin().get(i).getNumeroReportes());
             tabla.addRow(datos);
         }
-    } 
-    public void cargarDatosVentas(){
-        EmpleadoVentas ventas = new EmpleadoVentas(); 
+    }
+
+    public void cargarDatosVentas() {
+        EmpleadoVentas ventas = new EmpleadoVentas();
         for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
-            String datos[] = new String[8]; 
+            String datos[] = new String[8];
             datos[0] = ventas.getListaEmpleadosVentas().get(i).getTipoEmpleado();
             datos[1] = Integer.toString(ventas.getListaEmpleadosVentas().get(i).getCedula());
-            datos[2] =(ventas.getListaEmpleadosVentas().get(i).getNombre());
+            datos[2] = (ventas.getListaEmpleadosVentas().get(i).getNombre());
             datos[3] = (ventas.getListaEmpleadosVentas().get(i).getHorario());
             datos[4] = String.valueOf(ventas.getListaEmpleadosVentas().get(i).getSalario());
             datos[5] = (ventas.getListaEmpleadosVentas().get(i).getContraseña());
@@ -560,7 +561,8 @@ public class MenuEmpleado extends javax.swing.JFrame{
             tabla.addRow(datos);
         }
     }
-    public void limpiar(){
+
+    public void limpiar() {
         this.jComboBox1.setSelectedIndex(0);
         this.cedula.setText(null);
         this.nombre.setText(null);
@@ -569,5 +571,5 @@ public class MenuEmpleado extends javax.swing.JFrame{
         this.contraseña.setText(null);
         this.numeroReportes.setText(null);
         this.numeroVentas.setText(null);
-    } 
+    }
 }
