@@ -145,5 +145,8 @@ public class EmpleadoVentas extends Empleado implements Interfaz , Serializable 
        }
     @Override
     public void llamarListatxt(String x){
-    }    
+    }  
+     public void setNumeroVentaSuma() {
+        this.numeroVentas = this.numeroVentas + 1;
+    }
 }

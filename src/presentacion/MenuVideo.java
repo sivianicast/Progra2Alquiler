@@ -7,12 +7,14 @@ package presentacion;
 
 import entidades.Documental;
 import entidades.Pelicula;
+import entidades.Seri;
 import entidades.Serie;
 import entidades.Video;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static presentacion.MenuEmpleado.tabla;
+import utilidadaes.Utilidad;
 
 /**
  *
@@ -26,7 +28,17 @@ public class MenuVideo extends javax.swing.JFrame {
      * Creates new form MenuVideo
      */
     public MenuVideo() {
-        initComponents();
+        try {
+            tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+            tabla.setRowCount(0);
+            initComponents();
+            setLocationRelativeTo(null);
+            cargarTitulosColumas();
+            cargarDatosPeliculas();
+            cargarDatosDocumental();
+            cargarDatosSeries();
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -91,6 +103,24 @@ public class MenuVideo extends javax.swing.JFrame {
         nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreActionPerformed(evt);
+            }
+        });
+
+        cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cantidadKeyTyped(evt);
+            }
+        });
+
+        temporadas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                temporadasKeyTyped(evt);
+            }
+        });
+
+        secuelas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                secuelasKeyTyped(evt);
             }
         });
 
@@ -227,68 +257,127 @@ public class MenuVideo extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreActionPerformed
 
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
-        switch (this.combo.getSelectedIndex()) {
-            case 1:
-                Pelicula peli = new Pelicula();
-                for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
-                    if (peli.getListaPeliculas().get(i).getNombre().equals(this.nombre.getText())) {
-                        this.combo.setSelectedItem(peli.getListaPeliculas().get(i).getTipoVideo());
-                        this.nombre.setText(peli.getListaPeliculas().get(i).getNombre());
-                        this.cantidad.setText(Integer.toString(peli.getListaPeliculas().get(i).getCantidad()));
-                        this.secuelas.setText(Integer.toString(peli.getListaPeliculas().get(i).getSecuelas()));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+        boolean mesajeNoExiste = true;
+        if (nombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre de pelicula para mostrar ");
+        } else {
+            switch (this.combo.getSelectedIndex()) {
+                case 0:
+                    JOptionPane.showMessageDialog(null, "Elija el tipo de video ");
+                    break;
+                case 1:
+                    Pelicula peli = new Pelicula();
+                    for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
+                        if (peli.getListaPeliculas().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                            this.combo.setSelectedItem(peli.getListaPeliculas().get(i).getTipoVideo());
+                            this.nombre.setText(peli.getListaPeliculas().get(i).getNombre());
+                            this.cantidad.setText(Integer.toString(peli.getListaPeliculas().get(i).getCantidad()));
+                            this.secuelas.setText(Integer.toString(peli.getListaPeliculas().get(i).getSecuelas()));
+                            mesajeNoExiste = false;
+                        }
                     }
-                }
-                break;
-            case 2:
-                Serie serie = new Serie();
-                for (int i = 0; i < serie.getListaSeries().size(); i++) {
-                    if (serie.getListaSeries().get(i).getNombre().equals(this.nombre.getText())) {
-                        this.combo.setSelectedItem(serie.getListaSeries().get(i).getTipoVideo());
-                        this.nombre.setText(serie.getListaSeries().get(i).getNombre());
-                        this.cantidad.setText(Integer.toString(serie.getListaSeries().get(i).getCantidad()));
-                        this.temporadas.setText(Integer.toString(serie.getListaSeries().get(i).getNumeroTemporadas()));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+                    if (mesajeNoExiste) {
+                        JOptionPane.showMessageDialog(null, "El nombre indicado no existe");
                     }
-                }
-                break;
-            case 3:
-                Documental docu = new Documental();
-                for (int i = 0; i < docu.getListaDocumental().size(); i++) {
-                    if (docu.getListaDocumental().get(i).getNombre().equals(this.nombre.getText())) {
-                        this.combo.setSelectedItem(docu.getListaDocumental().get(i).getTipoVideo());
-                        this.nombre.setText(docu.getListaDocumental().get(i).getNombre());
-                        this.cantidad.setText(Integer.toString(docu.getListaDocumental().get(i).getCantidad()));
-                        this.categoria.setText((docu.getListaDocumental().get(i).getCategoria()));
-                    } else {
-                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+                    break;
+                case 2:
+                    Serie serie = new Serie();
+                    for (int i = 0; i < serie.getListaSeries().size(); i++) {
+                        if (serie.getListaSeries().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                            this.combo.setSelectedItem(serie.getListaSeries().get(i).getTipoVideo());
+                            this.nombre.setText(serie.getListaSeries().get(i).getNombre());
+                            this.cantidad.setText(Integer.toString(serie.getListaSeries().get(i).getCantidad()));
+                            this.temporadas.setText(Integer.toString(serie.getListaSeries().get(i).getNumeroTemporadas()));
+                            mesajeNoExiste = false;
+                        }
                     }
-                }
-                break;
-            default:
-                throw new AssertionError();
+                    if (mesajeNoExiste) {
+                        JOptionPane.showMessageDialog(null, "El nombre indicado no existe");
+                    }
+                    break;
+                case 3:
+                    Documental docu = new Documental();
+                    for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+                        if (docu.getListaDocumental().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                            this.combo.setSelectedItem(docu.getListaDocumental().get(i).getTipoVideo());
+                            this.nombre.setText(docu.getListaDocumental().get(i).getNombre());
+                            this.cantidad.setText(Integer.toString(docu.getListaDocumental().get(i).getCantidad()));
+                            this.categoria.setText((docu.getListaDocumental().get(i).getCategoria()));
+                            mesajeNoExiste = false;
+                        }
+                    }
+                    if (mesajeNoExiste) {
+                        JOptionPane.showMessageDialog(null, "El nombre indicado no existe");
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
         }
     }//GEN-LAST:event_mostrarActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
 
+        boolean nombreExiste = false;
         switch (combo.getSelectedIndex()) {
+            case 0:
+                JOptionPane.showMessageDialog(null, "Elija el tipo de video ");
             case 1:
-                Pelicula peli = new Pelicula(Integer.parseInt(this.secuelas.getText()), (String) this.combo.getSelectedItem(),
-                        this.nombre.getText(), Integer.parseInt(this.secuelas.getText()));
-                peli.agregarDatosLista(peli);
+                if (nombre.getText().isEmpty() || cantidad.getText().isEmpty() || secuelas.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                } else {
+                    Pelicula pelicula1 = new Pelicula();
+                    for (int i = 0; i < pelicula1.getListaPeliculas().size(); i++) {
+                        if (pelicula1.getListaPeliculas().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                            nombreExiste = true;
+                        }
+                    }
+                    if (nombreExiste) {
+                        JOptionPane.showMessageDialog(null, "El nombre ya existe");
+                    } else {
+                        Pelicula peli = new Pelicula(Integer.parseInt(this.secuelas.getText()), (String) this.combo.getSelectedItem(),
+                                this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
+                        peli.agregarDatosLista(peli);
+                    }
+                }
                 break;
             case 2:
-                Serie serie = new Serie(Integer.parseInt(this.temporadas.getText()), (String) this.combo.getSelectedItem(),
-                        this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
-                serie.agregarDatosLista(serie);
+                if (nombre.getText().isEmpty() || cantidad.getText().isEmpty() || temporadas.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                } else {
+                    Serie serie1 = new Serie();
+                    for (int i = 0; i < serie1.getListaSeries().size(); i++) {
+                        if (serie1.getListaSeries().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                            nombreExiste = true;
+                        }
+                    }
+                    if (nombreExiste) {
+                        JOptionPane.showMessageDialog(null, "El nombre ya existe");
+                    } else {
+                        Serie serie = new Serie(Integer.parseInt(this.temporadas.getText()), (String) this.combo.getSelectedItem(),
+                                this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
+                        serie.agregarDatosLista(serie);
+                    }
+                }
                 break;
             case 3:
-                Documental docu = new Documental(this.categoria.getText(), (String) this.combo.getSelectedItem(),
-                        this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
-                docu.agregarDatosLista(docu);
+                if (nombre.getText().isEmpty() || cantidad.getText().isEmpty() || categoria.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                } else {
+                    Documental docu1 = new Documental();
+                    for (int i = 0; i < docu1.getListaDocumental().size(); i++) {
+                        if (docu1.getListaDocumental().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                            nombreExiste = true;
+                        }
+                    }
+                    if (nombreExiste) {
+                    } else {
+                        Documental docu = new Documental(this.categoria.getText(), (String) this.combo.getSelectedItem(),
+                                this.nombre.getText(), Integer.parseInt(this.cantidad.getText()));
+                        JOptionPane.showMessageDialog(null, "El nombre ya existe");
+                        docu.agregarDatosLista(docu);
+                    }
+                }
                 break;
         }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
@@ -300,58 +389,68 @@ public class MenuVideo extends javax.swing.JFrame {
     }//GEN-LAST:event_agregarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        boolean mensajeNoExiste = true;
         if (nombre.getText().equals("") || combo.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(null, "Ingrese tipo de video y nombre");
         } else {
             switch (this.combo.getSelectedIndex()) {
                 case 1:
-                    Pelicula peli = new Pelicula();
-                    for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
-                        if (peli.getListaPeliculas().get(i).getNombre().equals(this.nombre.getText())) {
-                            ArrayList<String> lista = new ArrayList<>();
-                            lista.add((String) this.combo.getSelectedItem());
-                            lista.add(this.nombre.getText());
-                            lista.add(this.cantidad.getText());
-                            lista.add(this.secuelas.getText());
-                            peli.modificarDatosLista(lista);
-                            JOptionPane.showMessageDialog(null, "Ingrese tipo de video y nombrevvvvvvvvvvvvvvvvvvvvvvv");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "El nombre no existe");
+                    if (nombre.getText().isEmpty() || cantidad.getText().isEmpty() || secuelas.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                    } else {
+                        Pelicula peli = new Pelicula();
+                        for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
+                            if (peli.getListaPeliculas().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                                ArrayList<String> lista = new ArrayList<>();
+                                lista.add((String) this.combo.getSelectedItem());
+                                lista.add(this.nombre.getText());
+                                lista.add(this.cantidad.getText());
+                                lista.add(this.secuelas.getText());
+                                peli.modificarDatosLista(lista);
+                                mensajeNoExiste = false;
+                            } 
                         }
                     }
-
                     break;
                 case 2:
-                    Serie serie = new Serie();
-                    for (int i = 0; i < serie.getListaSeries().size(); i++) {
-                        if (serie.getListaSeries().get(i).getNombre().equals(this.nombre.getText())) {
-                            ArrayList<String> lista = new ArrayList<>();
-                            lista.add((String) this.combo.getSelectedItem());
-                            lista.add(this.nombre.getText());
-                            lista.add(this.cantidad.getText());
-                            lista.add(this.temporadas.getText());
-                            serie.modificarDatosLista(lista);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "El nombre no existe");
+                    if (nombre.getText().isEmpty() || cantidad.getText().isEmpty() || temporadas.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                    } else {
+                        Serie serie = new Serie();
+                        for (int i = 0; i < serie.getListaSeries().size(); i++) {
+                            if (serie.getListaSeries().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                                ArrayList<String> lista = new ArrayList<>();
+                                lista.add((String) this.combo.getSelectedItem());
+                                lista.add(this.nombre.getText());
+                                lista.add(this.cantidad.getText());
+                                lista.add(this.temporadas.getText());
+                                serie.modificarDatosLista(lista);
+                                mensajeNoExiste = false;
+                            } 
                         }
                     }
                     break;
                 case 3:
-                    Documental docu = new Documental();
-                    for (int i = 0; i < docu.getListaDocumental().size(); i++) {
-                        if (docu.getListaDocumental().get(i).getNombre().equals(this.nombre.getText())) {
-                            ArrayList<String> lista = new ArrayList<>();
-                            lista.add((String) this.combo.getSelectedItem());
-                            lista.add(this.nombre.getText());
-                            lista.add(this.cantidad.getText());
-                            lista.add(this.temporadas.getText());
-                            docu.modificarDatosLista(lista);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "El nombre no existe");
+                    if (nombre.getText().isEmpty() || cantidad.getText().isEmpty() || categoria.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                    } else {
+                        Documental docu = new Documental();
+                        for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+                            if (docu.getListaDocumental().get(i).getNombre().equalsIgnoreCase(this.nombre.getText())) {
+                                ArrayList<String> lista = new ArrayList<>();
+                                lista.add((String) this.combo.getSelectedItem());
+                                lista.add(this.nombre.getText());
+                                lista.add(this.cantidad.getText());
+                                lista.add(this.temporadas.getText());
+                                docu.modificarDatosLista(lista);
+                                mensajeNoExiste = false;
+                            } 
                         }
                     }
                     break;
-
+            }
+            if (mensajeNoExiste) {
+                JOptionPane.showMessageDialog(null, "El nombre no existe o lo escribio mal");
             }
             tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
             tabla.setRowCount(0); //para limpiar los datos de la tabla filas
@@ -360,23 +459,29 @@ public class MenuVideo extends javax.swing.JFrame {
             cargarDatosDocumental();
             cargarDatosSeries();
         }
-
     }//GEN-LAST:event_modificarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        switch (this.combo.getSelectedIndex()) {
-            case 1:
-                Pelicula peli = new Pelicula();
-                peli.eliminarDatosLista(Integer.parseInt(nombre.getText()));
-                break;
-            case 2:
-                Serie serie = new Serie();
-                serie.eliminarDatosLista(Integer.parseInt(nombre.getText()));
-                break;
-            case 3:
-                Documental docu = new Documental();
-                docu.eliminarDatosLista(Integer.parseInt(nombre.getText()));
-                break;
+        if (nombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese el nombre");
+        } else {
+            switch (this.combo.getSelectedIndex()) {
+                case 0:
+                    JOptionPane.showMessageDialog(null, "Ingrese el tipo de video");
+                    break;
+                case 1:
+                    Pelicula peli = new Pelicula();
+                    peli.eliminarDatosLista(nombre.getText());
+                    break;
+                case 2:
+                    Serie serie = new Serie();
+                    serie.eliminarDatosLista(nombre.getText());
+                    break;
+                case 3:
+                    Documental docu = new Documental();
+                    docu.eliminarDatosLista(nombre.getText());
+                    break;
+            }
         }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
@@ -391,10 +496,26 @@ public class MenuVideo extends javax.swing.JFrame {
     }//GEN-LAST:event_limpiarActionPerformed
 
     private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
+        Seri x = new Seri();
+        x.agregarTxt(Pelicula.listaPeliculas, "peliculas.txt");
+        x.agregarTxt(Serie.listaSeries, "series.txt");
+        x.agregarTxt(Documental.listaDocumental, "documentales.txt");
         Principal principal = new Principal();
         principal.setVisible(true);
         dispose();
     }//GEN-LAST:event_volverActionPerformed
+
+    private void cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidadKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_cantidadKeyTyped
+
+    private void temporadasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_temporadasKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_temporadasKeyTyped
+
+    private void secuelasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_secuelasKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_secuelasKeyTyped
 
     /**
      * @param args the command line arguments
@@ -457,7 +578,7 @@ public class MenuVideo extends javax.swing.JFrame {
     public void cargarTitulosColumas() {
         tabla.addColumn("Tipo Video");
         tabla.addColumn("Nombre");
-        tabla.addColumn("Cantida");
+        tabla.addColumn("Cantidad");
         tabla.addColumn("Secuelas");
         tabla.addColumn("Temporadas");
         tabla.addColumn("Categorias");
@@ -511,4 +632,5 @@ public class MenuVideo extends javax.swing.JFrame {
         this.temporadas.setText(null);
         this.categoria.setText(null);
     }
+
 }

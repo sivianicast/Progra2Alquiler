@@ -114,7 +114,7 @@ public class EmpleadoAdmin extends Empleado implements Interfaz, Serializable {
                 listaEmpleadosAdmin.get(i).setSalario(Double.parseDouble(lista.get(4)));
                 listaEmpleadosAdmin.get(i).setContraseña(lista.get(5));
                 listaEmpleadosAdmin.get(i).setNumeroReportes(Integer.parseInt(lista.get(6)));
-                JOptionPane.showMessageDialog(null, "Cliente modificado");
+                JOptionPane.showMessageDialog(null, "Empleado modificado");
             }
         }
     }
@@ -125,12 +125,12 @@ public class EmpleadoAdmin extends Empleado implements Interfaz, Serializable {
         for (int i = 0; i < listaEmpleadosAdmin.size(); i++) {
             if (codigo == listaEmpleadosAdmin.get(i).getCedula()) {
                 listaEmpleadosAdmin.remove(i);
-                JOptionPane.showMessageDialog(null, "Cliente eliminado");
+                JOptionPane.showMessageDialog(null, "Empleado eliminado");
                 existe = false;
             }
         }
         if (existe) {
-            JOptionPane.showMessageDialog(null, "Cliente no existe");
+            JOptionPane.showMessageDialog(null, "Empleado no existe");
         }
     }
 

@@ -11,18 +11,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import utilidadaes.Utilidad;
 
 /**
  *
  * @author siviany
  */
 public class MenuCliente extends javax.swing.JFrame {
-     public static DefaultTableModel tabla = new DefaultTableModel(); 
+
+    public static DefaultTableModel tabla = new DefaultTableModel();
+
     /**
      * Creates new form MenuCliente
      */
     public MenuCliente() {
         initComponents();
+        setLocationRelativeTo(null);
         cargarTitulosColumas();
         cargarDatos();
     }
@@ -103,6 +107,11 @@ public class MenuCliente extends javax.swing.JFrame {
                 cedulaActionPerformed(evt);
             }
         });
+        cedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cedulaKeyTyped(evt);
+            }
+        });
 
         nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,6 +128,11 @@ public class MenuCliente extends javax.swing.JFrame {
         telefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 telefonoActionPerformed(evt);
+            }
+        });
+        telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                telefonoKeyTyped(evt);
             }
         });
 
@@ -156,7 +170,7 @@ public class MenuCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -187,7 +201,7 @@ public class MenuCliente extends javax.swing.JFrame {
                     .addComponent(modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(349, 349, 349))
+                .addGap(179, 179, 179))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,28 +270,32 @@ public class MenuCliente extends javax.swing.JFrame {
 
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
         boolean mostrar = true;
-        Cliente cliente = new Cliente();
-        for (int i = 0; i < cliente.getListaClientes().size(); i++) {
-            if (cliente.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
-                nombre.setText(cliente.getListaClientes().get(i).getNombre());
-                apllido.setText(cliente.getListaClientes().get(i).getAprellido());
-                telefono.setText(Integer.toString(cliente.getListaClientes().get(i).getTelefono()));
-                direccion.setText(cliente.getListaClientes().get(i).getDireccion());
-                mostrar = false;
+        if (cedula.getText().isEmpty()) {
+            mostrar = true;
+        } else {
+            Cliente cliente = new Cliente();
+            for (int i = 0; i < cliente.getListaClientes().size(); i++) {
+                if (cliente.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
+                    nombre.setText(cliente.getListaClientes().get(i).getNombre());
+                    apllido.setText(cliente.getListaClientes().get(i).getAprellido());
+                    telefono.setText(Integer.toString(cliente.getListaClientes().get(i).getTelefono()));
+                    direccion.setText(cliente.getListaClientes().get(i).getDireccion());
+                    mostrar = false;
+                }
             }
         }
         if (mostrar) {
-            JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+            JOptionPane.showMessageDialog(null, "La Cedula indicada no existe o esta vacia");
         }
     }//GEN-LAST:event_mostrarActionPerformed
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        try{
-        Cliente cliente = new Cliente(); 
-        cliente.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
-        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
-        tabla.setRowCount(0); //para limpiar los datos de la tabla filas
-        cargarTitulosColumas();
-        cargarDatos();
+        try {
+            Cliente cliente = new Cliente();
+            cliente.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
+            tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+            tabla.setRowCount(0); //para limpiar los datos de la tabla filas
+            cargarTitulosColumas();
+            cargarDatos();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Id vacia");
         }
@@ -292,43 +310,48 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         }
         if (agregar) {
-            try {
+            if (cedula.getText().isEmpty() || nombre.getText().isEmpty() || apllido.getText().isEmpty() || direccion.getText().isEmpty() || telefono.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Datos vacios");
+            } else {
                 Cliente cliente = new Cliente(Integer.parseInt(cedula.getText()), nombre.getText(), apllido.getText(), direccion.getText(), Integer.parseInt(telefono.getText()));
                 cliente.agregarDatosLista(cliente);
                 tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
                 tabla.setRowCount(0); //para limpiar los datos de la tabla filas
                 cargarTitulosColumas();
                 cargarDatos();
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Datos vacios");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "La id ya existe");
-        }      
+        }
     }//GEN-LAST:event_agreagarClienteActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        try{
         boolean modificar = true;
-        Cliente cliente = new Cliente();
-        for (int i = 0; i < cliente.getListaClientes().size(); i++) {
-            if (cliente.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
-                ArrayList<String> listaClientes = new ArrayList<>();
-                listaClientes.add(cedula.getText());
-                listaClientes.add(nombre.getText());
-                listaClientes.add(apllido.getText());
-                listaClientes.add(direccion.getText());
-                listaClientes.add(telefono.getText());
-                cliente.modificarDatosLista(listaClientes);
-                modificar = false;
+        if (cedula.getText().isEmpty()) {
+            modificar = true;
+        } else {
+            Cliente cliente = new Cliente();
+            for (int i = 0; i < cliente.getListaClientes().size(); i++) {
+                if (cliente.getListaClientes().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
+                    if (cedula.getText().isEmpty() || nombre.getText().isEmpty() || apllido.getText().isEmpty() || direccion.getText().isEmpty() || telefono.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Datos vacios");
+                        modificar = false;
+                    } else {
+                        ArrayList<String> listaClientes = new ArrayList<>();
+                        listaClientes.add(cedula.getText());
+                        listaClientes.add(nombre.getText());
+                        listaClientes.add(apllido.getText());
+                        listaClientes.add(direccion.getText());
+                        listaClientes.add(telefono.getText());
+                        cliente.modificarDatosLista(listaClientes);
+                        modificar = false;
+                    }
+                }
             }
         }
         if (modificar) {
-            JOptionPane.showMessageDialog(null, "La id no existe");
+            JOptionPane.showMessageDialog(null, "La id no existe o esta vacia");
         }
-        } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Datos vacios");
-            }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
         cargarTitulosColumas();
@@ -338,7 +361,7 @@ public class MenuCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Cliente cliente = new Cliente();
         Seri x = new Seri();
-        x.agregarTxt(cliente.listaClientes,"lista.txt");
+        x.agregarTxt(cliente.listaClientes, "lista.txt");
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0);
         Principal x1 = new Principal();
@@ -349,6 +372,14 @@ public class MenuCliente extends javax.swing.JFrame {
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_limpiarActionPerformed
+
+    private void telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_telefonoKeyTyped
+
+    private void cedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedulaKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_cedulaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -405,35 +436,38 @@ public class MenuCliente extends javax.swing.JFrame {
     public javax.swing.JTextField nombre;
     public javax.swing.JTextField telefono;
     // End of variables declaration//GEN-END:variables
-    public void cargarTitulosColumas(){
-         tabla.addColumn("Cedula");   
-         tabla.addColumn("Nombre");
-         tabla.addColumn("Apellido");
-         tabla.addColumn("Direccion");
-         tabla.addColumn("Telefono");
+    public void cargarTitulosColumas() {
+        tabla.addColumn("Cedula");
+        tabla.addColumn("Nombre");
+        tabla.addColumn("Apellido");
+        tabla.addColumn("Direccion");
+        tabla.addColumn("Telefono");
         this.jTable2.setModel(tabla);
     }
-    public void cargarDatos(){
+
+    public void cargarDatos() {
         try {
-        Cliente cliente = new Cliente(); 
-        for (int i = 0; i < cliente.getListaClientes().size(); i++) {
-            String datos[] = new String[5]; 
-            datos[0] = Integer.toString(cliente.getListaClientes().get(i).getCedula());
-            datos[1] =(cliente.getListaClientes().get(i).getNombre());
-            datos[2] = (cliente.getListaClientes().get(i).getAprellido());
-            datos[3] = (cliente.getListaClientes().get(i).getDireccion());
-            datos[4] = Integer.toString(cliente.getListaClientes().get(i).getTelefono());
-            tabla.addRow(datos);
+            Cliente cliente = new Cliente();
+            for (int i = 0; i < cliente.getListaClientes().size(); i++) {
+                String datos[] = new String[5];
+                datos[0] = Integer.toString(cliente.getListaClientes().get(i).getCedula());
+                datos[1] = (cliente.getListaClientes().get(i).getNombre());
+                datos[2] = (cliente.getListaClientes().get(i).getAprellido());
+                datos[3] = (cliente.getListaClientes().get(i).getDireccion());
+                datos[4] = Integer.toString(cliente.getListaClientes().get(i).getTelefono());
+                tabla.addRow(datos);
+            }
+        } catch (Exception e) {
         }
-        }catch (Exception e) {
-        }
-        
+
     }
-    public void limpiar(){
+
+    public void limpiar() {
         this.cedula.setText(null);
         this.apllido.setText(null);
         this.nombre.setText(null);
         this.direccion.setText(null);
         this.telefono.setText(null);
     }
+
 }

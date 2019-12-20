@@ -6,6 +6,7 @@
 package entidades;
 
 import interfaz.Interfaz;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -13,10 +14,11 @@ import javax.swing.JOptionPane;
  *
  * @author siviany
  */
-public class Pelicula extends Video implements Interfaz {
+public class Pelicula extends Video implements Interfaz , Serializable {
 
     int secuelas;
     public static ArrayList<Pelicula> listaPeliculas = new ArrayList<Pelicula>();
+    public int getCantidad;
 
     public Pelicula() {
     }
@@ -75,6 +77,7 @@ public class Pelicula extends Video implements Interfaz {
     public void setListaPeliculas(ArrayList<Pelicula> listaPeliculas) {
         Pelicula.listaPeliculas = listaPeliculas;
     }
+    
 
     @Override
     public void agregarDatosLista(Object x) {
@@ -84,7 +87,7 @@ public class Pelicula extends Video implements Interfaz {
     @Override
     public void modificarDatosLista(ArrayList<String> lista) {
         for (int i = 0; i < listaPeliculas.size(); i++) {
-            if (lista.get(1).equals(listaPeliculas.get(i).getNombre())) {
+            if (lista.get(1).equalsIgnoreCase(listaPeliculas.get(i).getNombre())) {
                 listaPeliculas.get(i).setTipoVideo((lista.get(0)));
                 listaPeliculas.get(i).setNombre(lista.get(1));
                 listaPeliculas.get(i).setCantidad(Integer.parseInt(lista.get(2)));
@@ -94,11 +97,10 @@ public class Pelicula extends Video implements Interfaz {
         }
     }
 
-    @Override
-    public void eliminarDatosLista(int codigo) {
+    public void eliminarDatosLista(String codigo) {
         boolean existe = true;
         for (int i = 0; i < listaPeliculas.size(); i++) {
-            if (Integer.toString(codigo).equals(listaPeliculas.get(i).getNombre())) {
+            if (codigo.equalsIgnoreCase(listaPeliculas.get(i).getNombre())) {
                 listaPeliculas.remove(i);
                 JOptionPane.showMessageDialog(null, "Pelicula eliminada");
                 existe = false;
@@ -109,4 +111,19 @@ public class Pelicula extends Video implements Interfaz {
         }
     }
 
+  @Override
+    public void setCantidadSuma() {
+        this.cantidad = this.cantidad + 1;
+    }
+
+    @Override
+    public void setCantidadResta() {
+        this.cantidad = this.cantidad - 1;
+    }
+
+    @Override
+    public void eliminarDatosLista(int codigo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

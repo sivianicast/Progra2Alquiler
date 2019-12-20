@@ -5,6 +5,15 @@
  */
 package presentacion;
 
+import entidades.Alquiler;
+import entidades.Cliente;
+import entidades.Documental;
+import entidades.EmpleadoAdmin;
+import entidades.EmpleadoVentas;
+import entidades.Pelicula;
+import entidades.Seri;
+import entidades.Serie;
+
 /**
  *
  * @author siviany
@@ -16,6 +25,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -31,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         jbnEmpleados = new javax.swing.JButton();
         jbnAlquiler = new javax.swing.JButton();
         video = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,6 +60,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jbnAlquiler.setText("Alquiler");
+        jbnAlquiler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbnAlquilerActionPerformed(evt);
+            }
+        });
 
         video.setText("Video");
         video.addActionListener(new java.awt.event.ActionListener() {
@@ -57,17 +73,29 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(158, 158, 158)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbtClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbnEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                    .addComponent(jbnAlquiler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(video, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbtClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbnEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addComponent(jbnAlquiler, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(video, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(184, 184, 184)
+                        .addComponent(salir)))
                 .addContainerGap(221, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -81,7 +109,9 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(video)
                 .addGap(39, 39, 39)
                 .addComponent(jbnAlquiler)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addComponent(salir)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
@@ -104,6 +134,24 @@ public class Principal extends javax.swing.JFrame {
         video.setVisible(true);
         dispose();
     }//GEN-LAST:event_videoActionPerformed
+
+    private void jbnAlquilerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnAlquilerActionPerformed
+        MenuAlquiler alquiler = new MenuAlquiler();
+        alquiler.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jbnAlquilerActionPerformed
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        Seri x = new Seri();
+        x.agregarTxt(Pelicula.listaPeliculas, "peliculas.txt");
+        x.agregarTxt(Serie.listaSeries, "series.txt");
+        x.agregarTxt(Documental.listaDocumental, "documentales.txt");
+        x.agregarTxt(EmpleadoAdmin.listaEmpleadosAdmin, "administradores.txt");
+        x.agregarTxt(EmpleadoVentas.listaEmpleadosVentas, "vendedores.txt");
+        x.agregarTxt(Cliente.listaClientes, "lista.txt");
+        x.agregarTxt(Alquiler.listaAquiler, "alquiler.txt");
+        System.exit(0);
+    }//GEN-LAST:event_salirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,6 +192,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jbnAlquiler;
     private javax.swing.JButton jbnEmpleados;
     private javax.swing.JButton jbtClientes;
+    private javax.swing.JButton salir;
     private javax.swing.JButton video;
     // End of variables declaration//GEN-END:variables
 }

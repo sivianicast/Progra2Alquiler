@@ -5,17 +5,49 @@
  */
 package presentacion;
 
+import entidades.Alquiler;
+import entidades.Cliente;
+import entidades.Documental;
+import entidades.Empleado;
+import entidades.EmpleadoVentas;
+import entidades.Pelicula;
+import entidades.Seri;
+import entidades.Serie;
+import java.awt.JobAttributes;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import static presentacion.MenuVideo.tabla;
+import utilidadaes.Utilidad;
+
 /**
  *
  * @author siviany
  */
 public class MenuAlquiler extends javax.swing.JFrame {
 
+    public static DefaultTableModel tabla = new DefaultTableModel();
+
     /**
      * Creates new form MenuAlquiler
      */
     public MenuAlquiler() {
+        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+        tabla.setRowCount(0);
         initComponents();
+        setLocationRelativeTo(null);
+        cargarTitulosColumas();
+        cargarDatosAlquiler();
+        EmpleadoVentas ventas = new EmpleadoVentas();
+        for (int i = 0; i < EmpleadoVentas.listaEmpleadosVentas.size(); i++) {
+            String nombreEmpleado = ventas.getListaEmpleadosVentas().get(i).getNombre();
+            comboVentas.addItem(nombreEmpleado);
+        }
+        Cliente cliente = new Cliente();
+        for (int i = 0; i < Cliente.listaClientes.size(); i++) {
+            String nombreCliente = cliente.getListaClientes().get(i).getNombre();
+            comboCliente.addItem(nombreCliente);
+        }
     }
 
     /**
@@ -29,48 +61,107 @@ public class MenuAlquiler extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        alquilar = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        comboVideo = new javax.swing.JComboBox<>();
+        comboNombre = new javax.swing.JComboBox<>();
+        comboCliente = new javax.swing.JComboBox<>();
+        comboVentas = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formKeyTyped(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("jButton1");
+        alquilar.setText("Alquilar");
+        alquilar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alquilarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("jButton2");
+        eliminar.setText("Eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("jButton3");
+        jLabel1.setText("Tipo de video ");
 
-        jButton4.setText("jButton4");
+        jLabel2.setText("Nombre:");
 
-        jLabel1.setText("jLabel1");
+        jLabel3.setText("Cliente");
 
-        jLabel2.setText("jLabel2");
+        jLabel4.setText("Empleado Ventas");
 
-        jLabel3.setText("jLabel3");
+        comboVideo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Pelicula", "Serie", "Documental" }));
+        comboVideo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboVideoActionPerformed(evt);
+            }
+        });
+        comboVideo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                comboVideoKeyTyped(evt);
+            }
+        });
 
-        jLabel4.setText("jLabel4");
+        comboNombre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        comboNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboNombreActionPerformed(evt);
+            }
+        });
+        comboNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                comboNombreKeyPressed(evt);
+            }
+        });
 
-        jLabel5.setText("jLabel5");
+        comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        comboCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboClienteActionPerformed(evt);
+            }
+        });
+
+        comboVentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+
+        jButton5.setText("Volver");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Codigo");
+
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,61 +172,267 @@ public class MenuAlquiler extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(114, 114, 114))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)))
-                        .addGap(281, 281, 281))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGap(86, 86, 86))
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addComponent(alquilar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(comboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboNombre, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboVideo, javax.swing.GroupLayout.Alignment.LEADING, 0, 188, Short.MAX_VALUE)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(comboVentas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel6)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(comboVideo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(comboNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                    .addComponent(jLabel4)
+                    .addComponent(comboVentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(7, 7, 7)
-                .addComponent(jButton1)
-                .addGap(43, 43, 43))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eliminar)
+                    .addComponent(alquilar)
+                    .addComponent(jButton5))
+                .addGap(44, 44, 44))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void comboNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboNombreActionPerformed
+
+    }//GEN-LAST:event_comboNombreActionPerformed
+
+    private void comboVideoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVideoActionPerformed
+        try {
+            this.comboNombre.removeAllItems();
+            switch (this.comboVideo.getSelectedIndex()) {
+                case 0:
+
+                    break;
+                case 1:
+                    Pelicula peli = new Pelicula();
+                    for (int i = 0; i < peli.listaPeliculas.size(); i++) {
+                        String pelicula = peli.getListaPeliculas().get(i).getNombre();
+                        comboNombre.addItem(pelicula);
+                    }
+                    break;
+                case 2:
+                    Serie serie = new Serie();
+                    for (int i = 0; i < serie.listaSeries.size(); i++) {
+                        String seri = serie.getListaSeries().get(i).getNombre();
+                        comboNombre.addItem(seri);
+                    }
+                    break;
+                case 3:
+                    Documental docu = new Documental();
+                    for (int i = 0; i < docu.listaDocumental.size(); i++) {
+                        String documental = docu.getListaDocumental().get(i).getNombre();
+                        comboNombre.addItem(documental);
+                    }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_comboVideoActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Seri x = new Seri();
+        x.agregarTxt(Alquiler.listaAquiler, "alquiler.txt");
+        Principal principal = new Principal();
+        principal.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void comboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboClienteActionPerformed
+
+    private void comboNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_comboNombreKeyPressed
+
+    }//GEN-LAST:event_comboNombreKeyPressed
+
+    private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formKeyTyped
+
+    private void comboVideoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_comboVideoKeyTyped
+
+    }//GEN-LAST:event_comboVideoKeyTyped
+
+    private void alquilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alquilarActionPerformed
+        boolean continuarAlquiler = true;
+        Alquiler alquiler = new Alquiler();
+        if (txtCodigo.getText().isEmpty() || comboVentas.getSelectedIndex() == 0
+                || comboCliente.getSelectedIndex() == 0 || comboNombre.getSelectedIndex() == 0 || comboVideo.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Ingrese todos los campos");
+        } else {
+            if (validarIdExiste()) {
+                JOptionPane.showMessageDialog(null, "EL Codigo ya existe");
+            } else {
+                switch (this.comboVideo.getSelectedIndex()) {
+                    case 1:
+                        Pelicula peli = new Pelicula();
+                        for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
+                            if (peli.getListaPeliculas().get(i).getCantidad() == 0) {
+                                continuarAlquiler = false;
+                            }
+                        }
+                        if (continuarAlquiler) {
+                            for (int i = 0; i < peli.getListaPeliculas().size(); i++) {
+                                if (peli.getListaPeliculas().get(i).getNombre().equals((String) this.comboNombre.getSelectedItem())) {
+                                    peli.getListaPeliculas().get(i).setCantidadResta();
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        Serie serie = new Serie();
+                        for (int i = 0; i < serie.getListaSeries().size(); i++) {
+                            if (serie.getListaSeries().get(i).getCantidad() == 0) {
+                                continuarAlquiler = false;
+                            }
+                        }
+                        if (continuarAlquiler) {
+                            for (int i = 0; i < serie.getListaSeries().size(); i++) {
+                                if (serie.getListaSeries().get(i).getNombre().equals((String) this.comboNombre.getSelectedItem())) {
+                                    serie.getListaSeries().get(i).setCantidadResta();
+                                }
+                            }
+                        }
+                        break;
+                    case 3:
+                        Documental docu = new Documental();
+                        for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+                            if (docu.getListaDocumental().get(i).getCantidad() == 0) {
+                                continuarAlquiler = false;
+                            }
+                        }
+                        if (continuarAlquiler) {
+                            for (int i = 0; i < docu.getListaDocumental().size(); i++) {
+                                if (docu.getListaDocumental().get(i).getNombre().equals((String) this.comboNombre.getSelectedItem())) {
+                                    docu.getListaDocumental().get(i).setCantidadResta();
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+                if (continuarAlquiler) {
+                    EmpleadoVentas ventas = new EmpleadoVentas();
+                    for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
+                        if (comboVentas.getSelectedItem().equals(ventas.getListaEmpleadosVentas().get(i).getNombre())) {
+                            ventas.getListaEmpleadosVentas().get(i).setNumeroVentaSuma();
+                        }
+                    }
+                    alquiler.setCodigo(Integer.parseInt(this.txtCodigo.getText()));
+                    alquiler.setCliente((String) this.comboCliente.getSelectedItem());
+                    alquiler.setEmpleadoVentas((String) this.comboVentas.getSelectedItem());
+                    alquiler.setNombreVideo((String) this.comboNombre.getSelectedItem());
+                    alquiler.setTipoVideo((String) this.comboVideo.getSelectedItem());
+                    alquiler.agregarDatosLista(alquiler);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Pelicula agotada");
+                }
+
+                tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+                tabla.setRowCount(0);
+                cargarTitulosColumas();
+                cargarDatosAlquiler();
+                this.comboNombre.removeAllItems();
+            }
+        }
+    }//GEN-LAST:event_alquilarActionPerformed
+
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        if (txtCodigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "EL Codigo esta vacio");
+        } else {
+            Alquiler alquiler = new Alquiler();
+            for (int i = 0; i < alquiler.getListaAquiler().size(); i++) {
+                if (Integer.parseInt(txtCodigo.getText()) == alquiler.getListaAquiler().get(i).getCodigo()) {
+                    switch (alquiler.getListaAquiler().get(i).getTipoVideo()) {
+                        case "Pelicula":
+                            Pelicula peli = new Pelicula();
+                            for (int j = 0; j < peli.getListaPeliculas().size(); j++) {
+                                if (peli.getListaPeliculas().get(i).getNombre().equals(alquiler.getListaAquiler().get(i).getNombreVideo())) {
+                                    peli.getListaPeliculas().get(i).setCantidadSuma();
+                                }
+                            }
+                            break;
+                        case "Serie":
+                            Serie serie = new Serie();
+                            for (int j = 0; j < serie.getListaSeries().size(); j++) {
+                                if (serie.getListaSeries().get(i).getNombre().equals(alquiler.getListaAquiler().get(i).getNombreVideo())) {
+                                    serie.getListaSeries().get(i).setCantidadSuma();
+                                }
+                            }
+                            break;
+                        case "Documental":
+                            Documental docu = new Documental();
+                            for (int j = 0; j < docu.getListaDocumental().size(); j++) {
+                                if (docu.getListaDocumental().get(i).getNombre().equals(alquiler.getListaAquiler().get(i).getNombreVideo())) {
+                                    docu.getListaDocumental().get(i).setCantidadSuma();
+                                }
+                            }
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
+                }
+            }
+            alquiler.eliminarDatosLista(Integer.parseInt(txtCodigo.getText()));
+        }
+        tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
+        tabla.setRowCount(0);
+        cargarTitulosColumas();
+        cargarDatosAlquiler();
+    }//GEN-LAST:event_eliminarActionPerformed
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_txtCodigoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -173,16 +470,55 @@ public class MenuAlquiler extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton alquilar;
+    private javax.swing.JComboBox<String> comboCliente;
+    private javax.swing.JComboBox<String> comboNombre;
+    private javax.swing.JComboBox<String> comboVentas;
+    private javax.swing.JComboBox<String> comboVideo;
+    private javax.swing.JButton eliminar;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtCodigo;
     // End of variables declaration//GEN-END:variables
+  public void cargarTitulosColumas() {
+        tabla.addColumn("codigo");
+        tabla.addColumn("Tipo Video");
+        tabla.addColumn("Nombre");
+        tabla.addColumn("Cliente");
+        tabla.addColumn("EmpleadoVentas");
+        jTable1.setModel(tabla);
+    }
+
+    public void cargarDatosAlquiler() {
+        try {
+            Alquiler alquiler = new Alquiler();
+            for (int i = 0; i < alquiler.getListaAquiler().size(); i++) {
+                ArrayList<String> datos = new ArrayList<>();
+                datos.add(Integer.toString(alquiler.getListaAquiler().get(i).getCodigo()));
+                datos.add(alquiler.getListaAquiler().get(i).getTipoVideo());
+                datos.add(alquiler.getListaAquiler().get(i).getNombreVideo());
+                datos.add(alquiler.getListaAquiler().get(i).getCliente());
+                datos.add(alquiler.getListaAquiler().get(i).getEmpleadoVentas());
+                tabla.addRow(datos.toArray());
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public boolean validarIdExiste() {
+        Alquiler alquiler = new Alquiler();
+        for (int i = 0; i < alquiler.getListaAquiler().size(); i++) {
+            if (alquiler.getListaAquiler().get(i).getCodigo() == Integer.parseInt(txtCodigo.getText())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

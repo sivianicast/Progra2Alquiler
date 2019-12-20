@@ -6,6 +6,7 @@
 package entidades;
 
 import interfaz.Interfaz;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author siviany
  */
-public class Serie extends Video implements Interfaz {
+public class Serie extends Video implements Interfaz , Serializable  {
 
     int numeroTemporadas;
     public static ArrayList<Serie> listaSeries = new ArrayList<Serie>();
@@ -80,7 +81,7 @@ public class Serie extends Video implements Interfaz {
     @Override
     public void modificarDatosLista(ArrayList<String> lista) {
         for (int i = 0; i < listaSeries.size(); i++) {
-            if (lista.get(1).equals(listaSeries.get(i).getNombre())) {
+            if (lista.get(1).equalsIgnoreCase(listaSeries.get(i).getNombre())) {
                 listaSeries.get(i).setTipoVideo((lista.get(0)));
                 listaSeries.get(i).setNombre(lista.get(1));
                 listaSeries.get(i).setCantidad(Integer.parseInt(lista.get(2)));
@@ -90,11 +91,11 @@ public class Serie extends Video implements Interfaz {
         }
     }
 
-    @Override
-    public void eliminarDatosLista(int codigo) {
+    
+    public void eliminarDatosLista(String codigo) {
         boolean existe = true;
         for (int i = 0; i < listaSeries.size(); i++) {
-            if (Integer.toString(codigo).equals(listaSeries.get(i).getNombre())) {
+            if (codigo.equalsIgnoreCase(listaSeries.get(i).getNombre())) {
                 listaSeries.remove(i);
                 JOptionPane.showMessageDialog(null, "Serie eliminada");
                 existe = false;
@@ -103,6 +104,21 @@ public class Serie extends Video implements Interfaz {
         if (existe) {
             JOptionPane.showMessageDialog(null, "Serie no existe");
         }
+    }
+
+    @Override
+    public void setCantidadSuma() {
+        this.cantidad = this.cantidad + 1;
+    }
+
+    @Override
+    public void setCantidadResta() {
+        this.cantidad = this.cantidad - 1;
+    }
+
+    @Override
+    public void eliminarDatosLista(int codigo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

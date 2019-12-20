@@ -12,7 +12,9 @@ import entidades.Seri;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.ComboBoxUI;
 import javax.swing.table.DefaultTableModel;
+import utilidadaes.Utilidad;
 
 /**
  *
@@ -109,6 +111,17 @@ public class MenuEmpleado extends javax.swing.JFrame {
                 cedulaActionPerformed(evt);
             }
         });
+        cedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cedulaKeyTyped(evt);
+            }
+        });
+
+        salario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                salarioKeyTyped(evt);
+            }
+        });
 
         jLabel6.setText("Nombre");
 
@@ -156,8 +169,19 @@ public class MenuEmpleado extends javax.swing.JFrame {
                 numeroReportesActionPerformed(evt);
             }
         });
+        numeroReportes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                numeroReportesKeyTyped(evt);
+            }
+        });
 
         jLabel11.setText("Numero de ventas");
+
+        numeroVentas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                numeroVentasKeyTyped(evt);
+            }
+        });
 
         volver.setText("volver");
         volver.addActionListener(new java.awt.event.ActionListener() {
@@ -304,29 +328,35 @@ public class MenuEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_numeroReportesActionPerformed
 
     private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
-        if (empleado) {
-            Empleado admin = new EmpleadoAdmin();
-            for (int i = 0; i < ((EmpleadoAdmin) admin).getListaEmpleadosAdmin().size(); i++) {
-                if ((((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getCedula() == Integer.parseInt(this.cedula.getText()))) {
-                    nombre.setText(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getNombre());
-                    horario.setText(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getHorario());
-                    salario.setText(String.valueOf(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getSalario()));
-                    contraseña.setText(String.valueOf(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getContraseña()));
-                    numeroReportes.setText(String.valueOf(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getContraseña()));
-                } else {
-                    JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
-                }
-            }
-
+        if (jComboBox1.getSelectedIndex() == 0 || cedula.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tipo de empleso vacio o Id vacia");
         } else {
-            EmpleadoVentas ventas = new EmpleadoVentas();
-            for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
-                if (ventas.getListaEmpleadosVentas().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
-                    nombre.setText(ventas.getListaEmpleadosVentas().get(i).getNombre());
-                    horario.setText(ventas.getListaEmpleadosVentas().get(i).getHorario());
-                    salario.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getSalario()));
-                    contraseña.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getContraseña()));
-                    numeroVentas.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getContraseña()));
+            if (empleado) {
+                Empleado admin = new EmpleadoAdmin();
+                for (int i = 0; i < ((EmpleadoAdmin) admin).getListaEmpleadosAdmin().size(); i++) {
+                    if ((((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getCedula() == Integer.parseInt(this.cedula.getText()))) {
+                        nombre.setText(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getNombre());
+                        horario.setText(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getHorario());
+                        salario.setText(String.valueOf(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getSalario()));
+                        contraseña.setText(String.valueOf(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getContraseña()));
+                        numeroReportes.setText(String.valueOf(((EmpleadoAdmin) admin).getListaEmpleadosAdmin().get(i).getNumeroReportes()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe");
+                    }
+                }
+
+            } else {
+                EmpleadoVentas ventas = new EmpleadoVentas();
+                for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
+                    if (ventas.getListaEmpleadosVentas().get(i).getCedula() == Integer.parseInt(this.cedula.getText()) || ventas.getListaEmpleadosVentas().isEmpty()) {
+                        nombre.setText(ventas.getListaEmpleadosVentas().get(i).getNombre());
+                        horario.setText(ventas.getListaEmpleadosVentas().get(i).getHorario());
+                        salario.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getSalario()));
+                        contraseña.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getContraseña()));
+                        numeroVentas.setText(String.valueOf(ventas.getListaEmpleadosVentas().get(i).getContraseña()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La Cedula indicada no existe, o la lista no tiene empleados");
+                    }
                 }
             }
         }
@@ -339,25 +369,37 @@ public class MenuEmpleado extends javax.swing.JFrame {
 
     private void nuevoEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoEmpleadoActionPerformed
         if (empleado) {
-            EmpleadoAdmin admin = new EmpleadoAdmin();
-            admin.setCedula(Integer.parseInt(this.cedula.getText()));
-            admin.setNombre(this.nombre.getText());
-            admin.setHorario(this.horario.getText());
-            admin.setSalario(Double.parseDouble(this.salario.getText()));
-            admin.setContraseña(this.contraseña.getText());
-            admin.setNumeroReportes(Integer.parseInt(this.numeroReportes.getText()));
-            admin.setTipoEmpleado((String) this.jComboBox1.getSelectedItem());
-            admin.agregarDatosLista(admin);
+            if (jComboBox1.getSelectedIndex() == 0 || nombre.getText().isEmpty() || horario.getText().isEmpty() || salario.getText().isEmpty()
+                    || contraseña.getText().isEmpty() || numeroReportes.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+
+            } else {
+                EmpleadoAdmin admin = new EmpleadoAdmin();
+                admin.setCedula(Integer.parseInt(this.cedula.getText()));
+                admin.setNombre(this.nombre.getText());
+                admin.setHorario(this.horario.getText());
+                admin.setSalario(Double.parseDouble(this.salario.getText()));
+                admin.setContraseña(this.contraseña.getText());
+                admin.setNumeroReportes(Integer.parseInt(this.numeroReportes.getText()));
+                admin.setTipoEmpleado((String) this.jComboBox1.getSelectedItem());
+                admin.agregarDatosLista(admin);
+            }
         } else {
-            EmpleadoVentas ventas = new EmpleadoVentas();
-            ventas.setCedula(Integer.parseInt(this.cedula.getText()));
-            ventas.setNombre(this.nombre.getText());
-            ventas.setHorario(this.horario.getText());
-            ventas.setSalario(Double.parseDouble(this.salario.getText()));
-            ventas.setContraseña(this.contraseña.getText());
-            ventas.setNumeroVentas(Integer.parseInt(this.numeroVentas.getText()));
-            ventas.setTipoEmpleado((String) this.jComboBox1.getSelectedItem());
-            ventas.agregarDatosLista(ventas);
+            if (jComboBox1.getSelectedIndex() == 0 || nombre.getText().isEmpty() || horario.getText().isEmpty() || salario.getText().isEmpty()
+                    || contraseña.getText().isEmpty() || numeroVentas.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+
+            } else {
+                EmpleadoVentas ventas = new EmpleadoVentas();
+                ventas.setCedula(Integer.parseInt(this.cedula.getText()));
+                ventas.setNombre(this.nombre.getText());
+                ventas.setHorario(this.horario.getText());
+                ventas.setSalario(Double.parseDouble(this.salario.getText()));
+                ventas.setContraseña(this.contraseña.getText());
+                ventas.setNumeroVentas(Integer.parseInt(this.numeroVentas.getText()));
+                ventas.setTipoEmpleado((String) this.jComboBox1.getSelectedItem());
+                ventas.agregarDatosLista(ventas);
+            }
         }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
@@ -367,38 +409,54 @@ public class MenuEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_nuevoEmpleadoActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        boolean modificar = true;
         try {
-            boolean modificar = true;
-            if (empleado) {
-                EmpleadoAdmin admin = new EmpleadoAdmin();
-                for (int i = 0; i < admin.getListaEmpleadosAdmin().size(); i++) {
-                    if (admin.getListaEmpleadosAdmin().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
-                        ArrayList<String> lista = new ArrayList<>();
-                        lista.add((String) this.jComboBox1.getSelectedItem());
-                        lista.add(this.cedula.getText());
-                        lista.add(this.nombre.getText());
-                        lista.add(this.horario.getText());
-                        lista.add(this.salario.getText());
-                        lista.add(this.contraseña.getText());
-                        lista.add(this.numeroReportes.getText());
-                        admin.modificarDatosLista(lista);
-                        modificar = false;
-                    }
-                }
+            if (jComboBox1.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Ingrese tipo de empleado");
+                modificar = false;
             } else {
-                EmpleadoVentas ventas = new EmpleadoVentas();
-                for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
-                    if (ventas.getListaEmpleadosVentas().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
-                        ArrayList<String> lista = new ArrayList<>();
-                        lista.add((String) this.jComboBox1.getSelectedItem());
-                        lista.add(this.cedula.getText());
-                        lista.add(this.nombre.getText());
-                        lista.add(this.horario.getText());
-                        lista.add(this.salario.getText());
-                        lista.add(this.contraseña.getText());
-                        lista.add(this.numeroVentas.getText());
-                        ventas.modificarDatosLista(lista);
-                        modificar = false;
+                if (empleado) {
+                    EmpleadoAdmin admin = new EmpleadoAdmin();
+                    for (int i = 0; i < admin.getListaEmpleadosAdmin().size(); i++) {
+                        if (admin.getListaEmpleadosAdmin().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
+                            if (jComboBox1.getSelectedIndex() == 0 || nombre.getText().isEmpty() || horario.getText().isEmpty() || salario.getText().isEmpty()
+                                    || contraseña.getText().isEmpty() || numeroReportes.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                                modificar = false;
+                            } else {
+                                ArrayList<String> lista = new ArrayList<>();
+                                lista.add((String) this.jComboBox1.getSelectedItem());
+                                lista.add(this.cedula.getText());
+                                lista.add(this.nombre.getText());
+                                lista.add(this.horario.getText());
+                                lista.add(this.salario.getText());
+                                lista.add(this.contraseña.getText());
+                                lista.add(this.numeroReportes.getText());
+                                admin.modificarDatosLista(lista);
+                                modificar = false;
+                            }
+                        }
+                    }
+                } else {
+                    EmpleadoVentas ventas = new EmpleadoVentas();
+                    for (int i = 0; i < ventas.getListaEmpleadosVentas().size(); i++) {
+                        if (ventas.getListaEmpleadosVentas().get(i).getCedula() == Integer.parseInt(this.cedula.getText())) {
+                            if (jComboBox1.getSelectedIndex() == 0 || nombre.getText().isEmpty() || horario.getText().isEmpty() || salario.getText().isEmpty()
+                                    || contraseña.getText().isEmpty() || numeroReportes.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Ingrese todos los datos");
+                            } else {
+                                ArrayList<String> lista = new ArrayList<>();
+                                lista.add((String) this.jComboBox1.getSelectedItem());
+                                lista.add(this.cedula.getText());
+                                lista.add(this.nombre.getText());
+                                lista.add(this.horario.getText());
+                                lista.add(this.salario.getText());
+                                lista.add(this.contraseña.getText());
+                                lista.add(this.numeroVentas.getText());
+                                ventas.modificarDatosLista(lista);
+                                modificar = false;
+                            }
+                        }
                     }
                 }
             }
@@ -406,7 +464,7 @@ public class MenuEmpleado extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "La id no existe");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Datos vacios");
+            JOptionPane.showMessageDialog(null, "Id vacia");
         }
         tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
         tabla.setRowCount(0); //para limpiar los datos de la tabla filas
@@ -416,15 +474,18 @@ public class MenuEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_modificarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-
         try {
-            boolean elimina = true;
-            if (empleado) {
-                EmpleadoAdmin admin = new EmpleadoAdmin();
-                admin.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
+            if (jComboBox1.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Ingrese tipo de empleado");
             } else {
-                EmpleadoVentas ventas = new EmpleadoVentas();
-                ventas.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
+
+                if (empleado) {
+                    EmpleadoAdmin admin = new EmpleadoAdmin();
+                    admin.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
+                } else {
+                    EmpleadoVentas ventas = new EmpleadoVentas();
+                    ventas.eliminarDatosLista(Integer.parseInt(this.cedula.getText()));
+                }
             }
             tabla.setColumnCount(0); //para limpiar los datos de la tabla columnas
             tabla.setRowCount(0); //para limpiar los datos de la tabla filas
@@ -452,6 +513,22 @@ public class MenuEmpleado extends javax.swing.JFrame {
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
         limpiar();
     }//GEN-LAST:event_limpiarActionPerformed
+
+    private void cedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedulaKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_cedulaKeyTyped
+
+    private void salarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_salarioKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_salarioKeyTyped
+
+    private void numeroReportesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroReportesKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_numeroReportesKeyTyped
+
+    private void numeroVentasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroVentasKeyTyped
+        Utilidad.noPermiteTexto(evt);
+    }//GEN-LAST:event_numeroVentasKeyTyped
 
     /**
      * @param args the command line arguments

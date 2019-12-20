@@ -5,13 +5,14 @@
  */
 package entidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author siviany
  */
-public class Video {
+public class Video implements Serializable  {
 
     String tipoVideo;
     String nombre;
@@ -50,4 +51,11 @@ public class Video {
         this.cantidad = cantidad;
     }
 
+    public void setCantidadSuma() {
+        this.cantidad = this.cantidad + 1;
+    }
+
+    public void setCantidadResta() {
+        this.cantidad = this.cantidad + 1;
+    }
 }
